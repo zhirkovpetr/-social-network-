@@ -1,0 +1,10 @@
+.first {
+    display: flex;
+    justify-content: flex-end;
+    color: blue;
+}
+.second {
+    display: flex;
+    justify-content: flex-start;
+    color: red;
+}

@@ -1,0 +1,12 @@
+.postsBlock {
+    padding: 10px;
+}
+.posts {
+    margin-top: 10px;
+}
+.error{
+    border: 2px solid red;
+}
+.errorMessage{
+    color: red
+}

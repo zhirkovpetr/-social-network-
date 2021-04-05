@@ -1,0 +1,15 @@
+.dialogs {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+}
+.dialog {
+    padding: 10px;
+}
+
+.dialog img {
+    height: 50px;
+    border-radius: 30px;
+    margin: 5px;
+}
+
+

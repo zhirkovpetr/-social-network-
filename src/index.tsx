@@ -1,17 +1,29 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import {rootStateType, state, subscribe} from "./redux/state";
+import {
+    addMessageCallback,
+    addPostCallback,
+    changeMessageCallback,
+    changePostCallback,
+   } from "./redux/state";
+import ReactDOM from "react-dom";
+import {BrowserRouter} from "react-router-dom";
+import App from "./App";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const RenderEntireTree = () => {
+    ReactDOM.render(
+        <React.StrictMode>
+            <BrowserRouter>
+                <App state={state} addPostCallback={addPostCallback} addMessageCallback={addMessageCallback} changePostCallback={changePostCallback}
+                     changeMessageCallback={changeMessageCallback}/>
+            </BrowserRouter>
+        </React.StrictMode>,
+        document.getElementById('root')
+    );
+}
+RenderEntireTree()
+subscribe(RenderEntireTree);
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+
+
