@@ -1,25 +1,26 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import Post from "./Post/Post";
 import s from './MyPosts.module.css';
-import {postsType} from "../../../redux/state";
+import {ActionsTypes, AddPostAC, ChangePostAC, postsType} from "../../../redux/state";
+import {type} from "os";
 
 type MyPostsPropsType = {
     posts: Array<postsType>
-    addPostCallback: (post: string) => void
+    dispatch: (action: ActionsTypes) => void
     messagePost: string
-    changePostCallback: (newPost: string) => void
+
 }
 
 
 const MyPosts: React.FC<MyPostsPropsType> = (props: MyPostsPropsType) => {
     let [error, setError]= useState<string | null>('')
     const OnChangePostCallback= (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.changePostCallback(e.currentTarget.value)
+        props.dispatch(ChangePostAC(e.currentTarget.value))
     }
     const AddPost = () => {
         if (props.messagePost.trim() !== '') {
-            props.addPostCallback(props.messagePost.trim());
-            props.changePostCallback('')
+            props.dispatch(AddPostAC(props.messagePost.trim()));
+            props.dispatch(ChangePostAC(''))
         } else {
             setError('Title is required!')
         }
@@ -29,8 +30,8 @@ const MyPosts: React.FC<MyPostsPropsType> = (props: MyPostsPropsType) => {
         setError(null)
         if(e.key === 'Enter'){
             if (props.messagePost.trim() !== '') {
-                props.addPostCallback(props.messagePost.trim());
-                props.changePostCallback('')
+                props.dispatch(AddPostAC(props.messagePost.trim()));
+                props.dispatch(ChangePostAC(''))
             }else {
                 setError('Title is required!')
             }
