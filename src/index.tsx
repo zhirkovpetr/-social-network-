@@ -9,8 +9,7 @@ const RenderEntireTree = (state: AppStateType) => {
     ReactDOM.render(
         <React.StrictMode>
             <BrowserRouter>
-                <App state={state}
-                dispatch={store.dispatch.bind(store)}/>
+                <App state={state} store={store}/>
             </BrowserRouter>
         </React.StrictMode>,
         document.getElementById('root')
