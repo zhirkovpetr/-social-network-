@@ -1,6 +1,6 @@
 import {v1} from "uuid";
-import {profileReducer} from "./profile-reducer";
-import {dialogsReducer} from "./dialogs-reducer";
+import {AddPostAC, ChangePostAC, profileReducer} from "./profile-reducer";
+import {AddMessageAC, ChangeMessageAC, dialogsReducer} from "./dialogs-reducer";
 import {sideBarReducer} from "./sideBar-reducer";
 
 export type friendsType = {
@@ -45,40 +45,15 @@ export type storeType = {
     subscribe: (callback: () => void) => void
     dispatch: (action: ActionsTypes) => void
 }
-export type ActionsTypes= AddPostActionType|ChangePostActionType|AddMessageActionType|ChangeMessageActionType
+export type ActionsTypes = AddPostActionType | ChangePostActionType | AddMessageActionType | ChangeMessageActionType
 
-type AddPostActionType= ReturnType<typeof AddPostAC>
+type AddPostActionType = ReturnType<typeof AddPostAC>
 
-type ChangePostActionType= ReturnType<typeof ChangePostAC>
+type ChangePostActionType = ReturnType<typeof ChangePostAC>
 
-type AddMessageActionType= ReturnType<typeof AddMessageAC>
+type AddMessageActionType = ReturnType<typeof AddMessageAC>
 
-type ChangeMessageActionType= ReturnType<typeof ChangeMessageAC>
-
-
-export const AddPostAC= (postText: string)=> {
-    return {
-        type: "ADD-POST", postText: postText
-    } as const
-}
-
-export const ChangePostAC= (newPost: string)=> {
-    return {
-        type: "CHANGE-POST", newPost: newPost
-    } as const
-}
-
-export const AddMessageAC= (messageText: string)=> {
-    return {
-        type: "ADD-MESSAGE", messageText: messageText
-    } as const
-}
-
-export const ChangeMessageAC= (newMessage: string)=> {
-    return {
-        type: "CHANGE-MESSAGE", newMessage: newMessage
-    } as const
-}
+type ChangeMessageActionType = ReturnType<typeof ChangeMessageAC>
 
 export const store: storeType = {
     _state: {
@@ -124,27 +99,13 @@ export const store: storeType = {
         return this._state
     },
     dispatch(action) {
-        /*this._state.profilePage= profileReducer(this._state.profilePage, action)
-        this._state.dialogsPage= dialogsReducer(this._state.dialogsPage, action)
-        this._state.sideBar= sideBarReducer(this._state.sideBar, action)
-*/
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
+        this._state.sideBar = sideBarReducer(this._state.sideBar, action)
+        store._RenderEntireTree();
 
-        if(action.type === 'ADD-POST'){
-            const newPost: postsType = {id: v1(), message: action.postText, likesCount: 0};
-            this._state.profilePage.posts.push(newPost);
-            store._RenderEntireTree();
-        } else if (action.type === 'CHANGE-POST'){
-            this._state.profilePage.messageForNewPost = action.newPost
-            store._RenderEntireTree();
-        } else if (action.type === 'ADD-MESSAGE'){
-            const newMessage: messagesType = {id: v1(), message: action.messageText};
-            this._state.dialogsPage.messages.push(newMessage);
-            store._RenderEntireTree();
-        } else if (action.type === 'CHANGE-MESSAGE'){
-            this._state.dialogsPage.messageForNewMessage = action.newMessage;
-            store._RenderEntireTree();
-        }
-    }}
+    }
+}
 
 
 

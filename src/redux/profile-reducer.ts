@@ -1,7 +1,10 @@
 import {v1} from "uuid";
-import {ActionsTypes, postsType, rootStateType} from "./state";
+import {ActionsTypes, postsType, profilePageType} from "./store";
 
-/*export const AddPostAC= (postText: string)=> {
+const ADD_POST= "ADD-POST";
+const CHANGE_POST= "CHANGE-POST";
+
+export const AddPostAC= (postText: string)=> {
     return {
         type: "ADD-POST", postText: postText
     } as const
@@ -11,28 +14,28 @@ export const ChangePostAC= (newPost: string)=> {
     return {
         type: "CHANGE-POST", newPost: newPost
     } as const
-}*/
+}
 
-export const profileReducer = (_state: rootStateType, action: ActionsTypes) => {
+let initialState= {
+    messageForNewPost: '',
+    posts: [
+        {id: v1(), message: 'Hi, how a you?', likesCount: 12},
+        {id: v1(), message: "It's my first post.", likesCount: 22}
+    ]
+}
+
+export const profileReducer = (state: profilePageType=initialState, action: ActionsTypes): profilePageType=> {
     switch (action.type) {
-        case "ADD-POST":
+        case ADD_POST:
             const newPost: postsType = {id: v1(), message: action.postText, likesCount: 0};
-            _state.profilePage.posts.push(newPost);
-            return _state;
-        case "CHANGE-POST":
-            _state.profilePage.messageForNewPost = action.newPost
-            return _state;
+            state.posts.push(newPost);
+            return state;
+        case CHANGE_POST:
+            state.messageForNewPost = action.newPost
+            return state;
         default:
-            return _state
+            return state
     }
-
-    /*   if (action.type === 'ADD-POST') {
-           const newPost: postsType = {id: v1(), message: action.postText, likesCount: 0};
-           _state.profilePage.posts.push(newPost);
-
-       } else if (action.type === 'CHANGE-POST') {
-           _state.profilePage.messageForNewPost = action.newPost
-       }*/
 }
 
 

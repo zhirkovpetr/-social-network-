@@ -3,20 +3,29 @@ import './index.css';
 import ReactDOM from "react-dom";
 import {BrowserRouter} from "react-router-dom";
 import App from "./App";
-import {store} from "./redux/state";
+import {AppStateType, store} from "./redux/redux-store";
 
-const RenderEntireTree = () => {
+const RenderEntireTree = (state: AppStateType) => {
     ReactDOM.render(
         <React.StrictMode>
             <BrowserRouter>
-                <App store={store}/>
+                <App state={state}
+                dispatch={store.dispatch.bind(store)}/>
             </BrowserRouter>
         </React.StrictMode>,
         document.getElementById('root')
     );
 }
-RenderEntireTree()
-store.subscribe(RenderEntireTree);
+
+
+RenderEntireTree(store.getState());
+
+store.subscribe(()=>{
+    let state= store.getState();
+    RenderEntireTree(state)
+
+});
+
 
 
 
