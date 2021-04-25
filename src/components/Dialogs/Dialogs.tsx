@@ -2,23 +2,23 @@ import React, {ChangeEvent} from "react";
 import s from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import {dialogsPageType} from "../../redux/store";
+import {dialogsPageType} from "./DialogsContainer";
+
 
 
 type DialogsPropsType = {
     dialogsPage: dialogsPageType
-    AddMessage: () => void
-    ChangeMessageAC: (e: ChangeEvent<HTMLTextAreaElement>) => void
-    messageMessage: string
+    AddMessageAC: () => void
+    ChangeMessageAC: (newMessage: string) => void
 }
 
 const Dialogs: React.FC<DialogsPropsType> = (props) => {
     const OnChangeMessageCallback = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.ChangeMessageAC(e)
+        props.ChangeMessageAC(e.currentTarget.value)
     }
 
     const AddMessage = () => {
-        props.AddMessage()
+        props.AddMessageAC()
     }
 
     let dialogsElements = props.dialogsPage.dialogs.map((d) =>
@@ -37,7 +37,7 @@ const Dialogs: React.FC<DialogsPropsType> = (props) => {
             <div className={s.messages}>
                 {messagesElements}
                 <div className={s.inputButton}>
-                    <textarea value={props.messageMessage} placeholder={'Enter your message'}
+                    <textarea value={props.dialogsPage.messageForNewMessage} placeholder={'Enter your message'}
                               onChange={OnChangeMessageCallback}/>
                     <button onClick={AddMessage}>send</button>
                 </div>

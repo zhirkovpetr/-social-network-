@@ -1,11 +1,12 @@
 import React from 'react';
 import s from './NavBar.module.css';
 import {NavLink} from "react-router-dom";
-import {sideBarType} from "../../redux/store";
+import {NavBarPropsType} from "./NavBarContainer";
 
-type NavBarPropsType= {
-    sideBar: sideBarType
-}
+
+
+
+
 
 const Navbar: React.FC <NavBarPropsType> = (props) => {
     const friendsArray = props.sideBar.friends;

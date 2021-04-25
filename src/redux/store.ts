@@ -3,36 +3,36 @@ import {AddPostAC, ChangePostAC, profileReducer} from "./profile-reducer";
 import {AddMessageAC, ChangeMessageAC, dialogsReducer} from "./dialogs-reducer";
 import {sideBarReducer} from "./sideBar-reducer";
 
-export type friendsType = {
+type friendsType = {
     id: string
     name: string
 }
-export type messagesType = {
+type messagesType = {
     id: string
     message: string
 }
-export type dialogsType = {
+type dialogsType = {
     id: string
     name: string
 }
-export type postsType = {
+type postsType = {
     id: string
     message: string
     likesCount: number
 }
-export type sideBarType = {
+type sideBarType = {
     friends: Array<friendsType>
 }
-export type dialogsPageType = {
+type dialogsPageType = {
     dialogs: Array<dialogsType>
     messageForNewMessage: string
     messages: Array<messagesType>
 }
-export type profilePageType = {
+type profilePageType = {
     messageForNewPost: string
     posts: Array<postsType>
 }
-export type rootStateType = {
+type rootStateType = {
     profilePage: profilePageType
     dialogsPage: dialogsPageType
     sideBar: sideBarType

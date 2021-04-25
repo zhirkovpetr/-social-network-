@@ -1,35 +1,45 @@
-import React, {ChangeEvent} from 'react';
-import {AddPostAC, ChangePostAC} from "../../../redux/profile-reducer";
+import React from 'react';
+import {AddPostAC, ChangePostAC, InitialStateType, postsType} from "../../../redux/profile-reducer";
+import {AppStateType} from "../../../redux/redux-store";
+import {Dispatch} from "redux";
+import {connect} from "react-redux";
 import MyPosts from "./MyPosts";
-import StoreContext from '../../../storeContext';
 
-const MyPostsContainer = () => {
-    return (
-        <StoreContext.Consumer>
-            {(store) => {
-                let state = store.getState();
-                const OnChangePostCallback = (e: ChangeEvent<HTMLTextAreaElement>) => {
-                    store.dispatch(ChangePostAC(e.currentTarget.value))
-                }
-                const AddPost = () => {
-                    store.dispatch(AddPostAC(state.profilePage.messageForNewPost.trim()));
-                    store.dispatch(ChangePostAC(''))
-                }
-                const onKeyPressHandler = () => {
-                    store.dispatch(AddPostAC(state.profilePage.messageForNewPost.trim()));
-                    store.dispatch(ChangePostAC(''))
 
-                }
-
-                return (
-                    <MyPosts posts={state.profilePage.posts} ChangePostAC={OnChangePostCallback}
-                             AddPostAC={AddPost} onKeyPressHandler={onKeyPressHandler}
-                             messagePost={state.profilePage.messageForNewPost}/>
-                )
-            }
-            }
-        </StoreContext.Consumer>)
+export type profilePageType = {
+    messageForNewPost: string
+    posts: Array<postsType>
 }
 
-export default MyPostsContainer;
+type mapStatePropsType = {
+    profilePage: InitialStateType
+}
+type mapDispatchPropsType = {
+    ChangePostAC: (newPost: string) => void
+    AddPostAC: () => void
+    onKeyPressHandler: () => void
+}
+
+let mapToStateToProps = (state: AppStateType): mapStatePropsType => {
+    return {
+        profilePage: state.profilePage
+    }
+}
+
+let mapDispatchToProps = (dispatch: Dispatch): mapDispatchPropsType => {
+    return {
+        ChangePostAC: (newPost: string) => {
+            dispatch(ChangePostAC(newPost))
+        },
+        AddPostAC: () => {
+            dispatch(AddPostAC())
+        },
+        onKeyPressHandler: ()=> {
+           dispatch(AddPostAC());
+            dispatch(ChangePostAC(''))
+        }
+    }
+}
+
+export const MyPostsContainer = connect(mapToStateToProps, mapDispatchToProps)(MyPosts)
 
