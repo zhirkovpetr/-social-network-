@@ -36,20 +36,18 @@ let initialState = {
 
 export const profileReducer = (state: InitialStateType = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
-        case ADD_POST: {
+        case ADD_POST:
             const newPost = state.messageForNewPost;
             return {
                 ...state,
                 messageForNewPost: '',
                 posts: [...state.posts, {id: v1(), message: newPost, likesCount: 0}]
             }
-        }
-        case CHANGE_POST: {
+        case CHANGE_POST:
             return {
                 ...state,
                 messageForNewPost: action.newPost
             }
-        }
         default:
             return state
     }
