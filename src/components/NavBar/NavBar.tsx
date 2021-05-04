@@ -3,11 +3,6 @@ import s from './NavBar.module.css';
 import {NavLink} from "react-router-dom";
 import {NavBarPropsType} from "./NavBarContainer";
 
-
-
-
-
-
 const Navbar: React.FC <NavBarPropsType> = (props) => {
     const friendsArray = props.sideBar.friends;
     return (

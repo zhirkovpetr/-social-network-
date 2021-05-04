@@ -6,9 +6,9 @@ export type friendsType = {
     name: string
 }
 
-export type InitialStateType= typeof initialState
+export type InitialStateType = typeof initialState
 
-let initialState= {
+let initialState = {
     friends: [
         {id: v1(), name: 'Dmitry'},
         {id: v1(), name: 'Petr'},
@@ -16,7 +16,7 @@ let initialState= {
     ] as Array<friendsType>
 }
 
-export const sideBarReducer= (state:InitialStateType= initialState, action: ActionsTypes):InitialStateType => {
+export const sideBarReducer = (state: InitialStateType = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
         default:
             return state

@@ -1,4 +1,3 @@
-import React from "react";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {AppStateType} from "../../redux/redux-store";
@@ -12,15 +11,14 @@ type friendsType = {
 type sideBarType = {
     friends: Array<friendsType>
 }
-export type NavBarPropsType= {
+export type NavBarPropsType = {
     sideBar: sideBarType
 }
 
 type mapStatePropsType = {
     sideBar: InitialStateType
 }
-type mapDispatchPropsType = {
-}
+type mapDispatchPropsType = {}
 
 let mapToStateToProps = (state: AppStateType): mapStatePropsType => {
     return {
@@ -29,9 +27,7 @@ let mapToStateToProps = (state: AppStateType): mapStatePropsType => {
 }
 
 let mapDispatchToProps = (dispatch: Dispatch): mapDispatchPropsType => {
-    return {
-
-    }
+    return {}
 }
 
 export const NavbarContainer = connect(mapToStateToProps, mapDispatchToProps)(Navbar)
