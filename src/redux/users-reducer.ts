@@ -17,6 +17,8 @@ export type InitialStateType = typeof initialState;
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
 const SET_USERS = "SET_USERS";
+const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
+const SET_TOTAL_USERS_COUNT = "SET_TOTAL_USERS_COUNT";
 
 export const followAC = (userId: string) => {
     return {
@@ -35,15 +37,30 @@ export const setUsersAC = (users: Array<UserType>) => {
         type: SET_USERS, users: users
     } as const
 }
+export const setTotalUsersCountAC = (totalUsersCount: number) => {
+    return {
+        type: SET_TOTAL_USERS_COUNT, totalCount: totalUsersCount
+    } as const
+}
+export const setCurrentPageAC = (currentPage: number) => {
+    return {
+        type: SET_CURRENT_PAGE, currentPage: currentPage
+    } as const
+}
 
 type followActionType = ReturnType<typeof followAC>
 type unFollowActionType = ReturnType<typeof unFollowAC>
 type setUsersActionType = ReturnType<typeof setUsersAC>
+type setCurrentPageActionType = ReturnType<typeof setCurrentPageAC>
+type setTotalUsersCountActionType = ReturnType<typeof setTotalUsersCountAC>
 
-export type ActionsTypes = followActionType | unFollowActionType | setUsersActionType
+export type ActionsTypes = followActionType | unFollowActionType | setUsersActionType | setCurrentPageActionType | setTotalUsersCountActionType
 
 export let initialState = {
-    users: [] as Array<UserType>
+    users: [] as Array<UserType>,
+    pageSize: 5,
+    totalUsersCount: 0,
+    currentPage: 1
 }
 
 export const usersReducer = (state: InitialStateType = initialState, action: ActionsTypes): InitialStateType => {
@@ -72,7 +89,17 @@ export const usersReducer = (state: InitialStateType = initialState, action: Act
 
         case SET_USERS:
             return {
-                ...state, users: [...state.users, ...action.users]
+                ...state, users: [...action.users]
+            }
+
+        case SET_CURRENT_PAGE:
+            return {
+                ...state, currentPage: action.currentPage
+            }
+
+        case SET_TOTAL_USERS_COUNT:
+            return {
+                ...state, totalUsersCount: action.totalCount
             }
 
 
