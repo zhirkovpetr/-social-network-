@@ -1,6 +1,6 @@
 import {v1} from "uuid";
-import {AddPostAC, ChangePostAC, profileReducer} from "./profile-reducer";
-import {AddMessageAC, ChangeMessageAC, dialogsReducer} from "./dialogs-reducer";
+import {AddPost, ChangePost, onKeyPressHandler, setUserProfile} from "./profile-reducer";
+import {AddMessage, ChangeMessage, dialogsReducer} from "./dialogs-reducer";
 import {sideBarReducer} from "./sideBar-reducer";
 
 type friendsType = {
@@ -38,22 +38,27 @@ type rootStateType = {
     sideBar: sideBarType
 }
 
-export type storeType = {
+type storeType = {
     _state: rootStateType
     _RenderEntireTree: () => void
     getState: () => rootStateType
     subscribe: (callback: () => void) => void
     dispatch: (action: ActionsTypes) => void
 }
-export type ActionsTypes = AddPostActionType | ChangePostActionType | AddMessageActionType | ChangeMessageActionType
 
-type AddPostActionType = ReturnType<typeof AddPostAC>
+export type ActionsTypes = AddPostActionType | ChangePostActionType | onKeyPressHandlerActionType
+    | AddMessageActionType | ChangeMessageActionType | setUserProfileActionType
 
-type ChangePostActionType = ReturnType<typeof ChangePostAC>
+type AddPostActionType = ReturnType<typeof AddPost>
+type ChangePostActionType = ReturnType<typeof ChangePost>
+type onKeyPressHandlerActionType = ReturnType<typeof onKeyPressHandler>
+type setUserProfileActionType = ReturnType<typeof setUserProfile>
 
-type AddMessageActionType = ReturnType<typeof AddMessageAC>
+type AddMessageActionType = ReturnType<typeof AddMessage>
+type ChangeMessageActionType = ReturnType<typeof ChangeMessage>
 
-type ChangeMessageActionType = ReturnType<typeof ChangeMessageAC>
+
+
 
 export const store: storeType = {
     _state: {
@@ -99,14 +104,12 @@ export const store: storeType = {
         return this._state
     },
     dispatch(action) {
-        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        /*this._state.profilePage = profileReducer(this._state.profilePage, action)*/
         this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
         this._state.sideBar = sideBarReducer(this._state.sideBar, action)
         store._RenderEntireTree();
 
     }
 }
-
-
 
 

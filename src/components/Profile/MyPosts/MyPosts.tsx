@@ -5,8 +5,8 @@ import {profilePageType} from "./MyPostsContainer";
 
 
 type MyPostsPropsType = {
-    AddPostAC: () => void
-    ChangePostAC: (newPost: string) => void
+    AddPost: () => void
+    ChangePost: (newPost: string) => void
     onKeyPressHandler: () => void
     profilePage: profilePageType
 
@@ -17,11 +17,11 @@ const MyPosts: React.FC<MyPostsPropsType> = (props: MyPostsPropsType) => {
     let [error, setError] = useState<string | null>('')
 
     const OnChangePostCallback = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.ChangePostAC(e.currentTarget.value)
+        props.ChangePost(e.currentTarget.value)
     }
     const AddPost = () => {
         if (props.profilePage.messageForNewPost.trim() !== ''){
-            props.AddPostAC()
+            props.AddPost()
         }
     }
 

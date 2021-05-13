@@ -8,17 +8,17 @@ import {dialogsPageType} from "./DialogsContainer";
 
 type DialogsPropsType = {
     dialogsPage: dialogsPageType
-    AddMessageAC: () => void
-    ChangeMessageAC: (newMessage: string) => void
+    AddMessage: () => void
+    ChangeMessage: (newMessage: string) => void
 }
 
 const Dialogs: React.FC<DialogsPropsType> = (props) => {
     const OnChangeMessageCallback = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.ChangeMessageAC(e.currentTarget.value)
+        props.ChangeMessage(e.currentTarget.value)
     }
 
     const AddMessage = () => {
-        props.AddMessageAC()
+        props.AddMessage()
     }
 
     let dialogsElements = props.dialogsPage.dialogs.map((d) =>

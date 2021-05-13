@@ -1,7 +1,6 @@
 import React from 'react';
-import {AddPostAC, ChangePostAC, InitialStateType, postsType} from "../../../redux/profile-reducer";
+import {AddPost, ChangePost, ProfilePageType, onKeyPressHandler, postsType} from "../../../redux/profile-reducer";
 import {AppStateType} from "../../../redux/redux-store";
-import {Dispatch} from "redux";
 import {connect} from "react-redux";
 import MyPosts from "./MyPosts";
 
@@ -12,13 +11,13 @@ export type profilePageType = {
 }
 
 type mapStatePropsType = {
-    profilePage: InitialStateType
+    profilePage: ProfilePageType
 }
-type mapDispatchPropsType = {
+/*type mapDispatchPropsType = {
     ChangePostAC: (newPost: string) => void
     AddPostAC: () => void
     onKeyPressHandler: () => void
-}
+}*/
 
 let mapToStateToProps = (state: AppStateType): mapStatePropsType => {
     return {
@@ -26,7 +25,7 @@ let mapToStateToProps = (state: AppStateType): mapStatePropsType => {
     }
 }
 
-let mapDispatchToProps = (dispatch: Dispatch): mapDispatchPropsType => {
+/*let mapDispatchToProps = (dispatch: Dispatch): mapDispatchPropsType => {
     return {
         ChangePostAC: (newPost: string) => {
             dispatch(ChangePostAC(newPost))
@@ -39,7 +38,7 @@ let mapDispatchToProps = (dispatch: Dispatch): mapDispatchPropsType => {
             dispatch(ChangePostAC(''))
         }
     }
-}
+}*/
 
-export const MyPostsContainer = connect(mapToStateToProps, mapDispatchToProps)(MyPosts)
+export const MyPostsContainer = connect(mapToStateToProps, {ChangePost, AddPost, onKeyPressHandler})(MyPosts)
 

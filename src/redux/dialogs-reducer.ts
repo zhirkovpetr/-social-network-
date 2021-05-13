@@ -2,6 +2,7 @@ import {v1} from "uuid";
 import {ActionsTypes} from "./store";
 
 
+
 export type messagesType = {
     id: string
     message: string
@@ -17,13 +18,13 @@ export type InitialStateType = typeof initialState;
 const ADD_MESSAGE = "ADD-MESSAGE";
 const CHANGE_MESSAGE = "CHANGE-MESSAGE";
 
-export const AddMessageAC = () => {
+export const AddMessage= () => {
     return {
         type: "ADD-MESSAGE"
     } as const
 }
 
-export const ChangeMessageAC = (newMessage: string) => {
+export const ChangeMessage= (newMessage: string) => {
     return {
         type: "CHANGE-MESSAGE", newMessage: newMessage
     } as const
