@@ -3,7 +3,7 @@ import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 import {ProfileType} from "../../redux/profile-reducer";
 
-type ProfilePropsType = {
+export type ProfilePropsType = {
     profile: ProfileType | null
 }
 

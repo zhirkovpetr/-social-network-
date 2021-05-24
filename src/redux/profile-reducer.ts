@@ -1,4 +1,7 @@
 import {v1} from 'uuid';
+import {ThunkAction, ThunkDispatch} from "redux-thunk";
+import {AppStateType} from "./redux-store";
+import {usersAPI} from "../API/api";
 
 export type postsType = {
     id: string
@@ -119,6 +122,20 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
             return state
     }
 }
+
+type ThunkType = ThunkAction<void, AppStateType, unknown, ActionsTypes>
+
+export const getUserPageTC = (userId: number | undefined): ThunkType => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>,
+            getState: () => AppStateType) => {
+        if(!userId){
+            userId=2
+        }
+        usersAPI.getUserPage(userId)
+            .then(data => {
+                dispatch(setUserProfile(data));
+            })
+}}
 
 
 

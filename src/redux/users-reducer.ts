@@ -1,3 +1,8 @@
+import {usersAPI} from "../API/api";
+import {AppStateType} from "./redux-store";
+import {ThunkAction, ThunkDispatch} from "redux-thunk";
+
+
 type PhotoType = {
     small: null | string
     large: null | string
@@ -132,5 +137,46 @@ export const usersReducer = (state: InitialStateType = initialState, action: Act
             }
         default:
             return state;
+    }
+}
+
+type ThunkType = ThunkAction<void, AppStateType, unknown, ActionsTypes>
+
+export const getUsersTC = (currentPage: number, pageSize: number): ThunkType => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>,
+            getState: () => AppStateType) => {
+        dispatch(toggleIsFetching(true));
+        usersAPI.getUsers(currentPage, pageSize).then(data => {
+            dispatch(toggleIsFetching(false));
+            dispatch(setUsers(data.items));
+            dispatch(setTotalUsersCount(data.totalCount));
+            dispatch(setCurrentPage(currentPage))
+        })
+    }
+}
+
+export const followTC = (userId: string): ThunkType => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>,
+            getState: () => AppStateType) => {
+        dispatch(toggleIsFollowingInProgress(userId, true))
+        usersAPI.followUsers(userId).then(data => {
+            if (data.resultCode === 0) {
+                dispatch(follow(userId))
+            }
+            dispatch(toggleIsFollowingInProgress(userId, false))
+        })
+        }
+}
+
+export const unFollowTC = (userId: string): ThunkType => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>,
+            getState: () => AppStateType) => {
+        dispatch(toggleIsFollowingInProgress(userId, true))
+        usersAPI.unFollowUsers(userId).then(data => {
+            if (data.resultCode === 0) {
+                dispatch(unFollow(userId))
+            }
+            dispatch(toggleIsFollowingInProgress(userId, false))
+        })
     }
 }

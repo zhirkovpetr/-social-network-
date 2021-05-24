@@ -1,3 +1,7 @@
+import {ThunkAction, ThunkDispatch} from "redux-thunk";
+import {AppStateType} from "./redux-store";
+import {usersAPI} from "../API/api";
+
 export type AuthPageType = {
     id: number | null,
     email: string | null,
@@ -48,5 +52,24 @@ export const authReducer = (state: AuthPageType = initialState, action: ActionsT
             }
         default:
             return state;
+    }
+}
+
+
+type ThunkType = ThunkAction<void, AppStateType, unknown, ActionsTypes>
+
+export const getUserLoginTC = (id: number | null): ThunkType => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>,
+            getState: () => AppStateType) => {
+        dispatch(toggleIsFetching(true))
+        usersAPI.getUserLogin(id)
+            .then(data => {
+                if(data.data.resultCode === 0) {
+                    let {id, email, login}= data.data
+                    dispatch(setUserData(id, email, login))
+                }
+                dispatch(toggleIsFetching(false))
+
+            })
     }
 }

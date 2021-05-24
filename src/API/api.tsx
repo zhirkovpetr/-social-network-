@@ -32,7 +32,24 @@ export const usersAPI = {
                     return response.data
                 })
         )
-    }
+    },
+    getUserLogin(me: number | null) {
+        return (
+            instance.get(`auth/${me}`)
+                .then(response => {
+                    return response.data
+                })
+        )
+    },
+    getUserPage(userId: number) {
+        return (
+            instance.get(`profile/${userId}`, {})
+                .then(response => {
+                    return response.data
+                })
+        )
+    },
+
 }
 
 
