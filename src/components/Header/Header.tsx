@@ -4,8 +4,6 @@ import s from './Header.module.css';
 import {Preloader} from "../../common/Preloader/Preloader";
 
 type HeaderPropsType = {
-    id: number | null,
-    email: string | null,
     login: string | null,
     isFetching: boolean
     isAuth: boolean

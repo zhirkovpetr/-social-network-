@@ -2,7 +2,7 @@ import React from 'react';
 import s from './Users.module.css'
 import userPhoto from '../../assets/images/user.png'
 import {UserType} from '../../redux/users-reducer';
-import {NavLink} from 'react-router-dom';
+import {NavLink, Redirect} from 'react-router-dom';
 
 type UsersPropsType = {
     totalUsersCount: number
@@ -25,6 +25,7 @@ let Users = (props: UsersPropsType) => {
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
     }
+
     return (<div>
         <div className={s.page}>
             {pages.map((p) => {

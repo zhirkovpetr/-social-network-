@@ -33,24 +33,25 @@ export const usersAPI = {
                 })
         )
     },
-    getUserLogin(me: number | null) {
-        return (
-            instance.get(`auth/${me}`)
-                .then(response => {
-                    return response.data
-                })
-        )
-    },
     getUserPage(userId: number) {
         return (
-            instance.get(`profile/${userId}`, {})
+            instance.get(`profile/${userId}`)
                 .then(response => {
                     return response.data
                 })
         )
     },
-
 }
+
+export const authAPI={
+    me() {
+        return (
+            instance.get(`auth/me`)
+                .then(response => {
+                    return response.data
+                })
+        )
+    },}
 
 
 

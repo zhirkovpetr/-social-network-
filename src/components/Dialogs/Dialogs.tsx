@@ -4,10 +4,9 @@ import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import {dialogsPageType} from "./DialogsContainer";
 
-
-
 type DialogsPropsType = {
     dialogsPage: dialogsPageType
+    isAuth: boolean
     AddMessage: () => void
     ChangeMessage: (newMessage: string) => void
 }
@@ -29,6 +28,7 @@ const Dialogs: React.FC<DialogsPropsType> = (props) => {
             <Message message={m.message} key={index}/>
         )
     });
+
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>

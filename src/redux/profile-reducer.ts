@@ -125,12 +125,9 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
 
 type ThunkType = ThunkAction<void, AppStateType, unknown, ActionsTypes>
 
-export const getUserPageTC = (userId: number | undefined): ThunkType => {
+export const getUserPageTC = (userId: number): ThunkType => {
     return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>,
             getState: () => AppStateType) => {
-        if(!userId){
-            userId=2
-        }
         usersAPI.getUserPage(userId)
             .then(data => {
                 dispatch(setUserProfile(data));
