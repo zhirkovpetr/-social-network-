@@ -1,11 +1,9 @@
 import React from "react";
 
 
-const Music = () => {
-
+export const Login = () => {
     return (<div>
-            Music
+            Login, login please
             </div>)
 }
 
-export default Music;

@@ -1,6 +1,6 @@
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {AppStateType} from "./redux-store";
-import {usersAPI} from "../API/api";
+import {authAPI} from "../API/api";
 
 export type AuthPageType = {
     id: number | null,
@@ -58,13 +58,13 @@ export const authReducer = (state: AuthPageType = initialState, action: ActionsT
 
 type ThunkType = ThunkAction<void, AppStateType, unknown, ActionsTypes>
 
-export const getUserLoginTC = (id: number | null): ThunkType => {
+export const getUserLoginTC = (): ThunkType => {
     return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>,
             getState: () => AppStateType) => {
         dispatch(toggleIsFetching(true))
-        usersAPI.getUserLogin(id)
+        authAPI.me()
             .then(data => {
-                if(data.data.resultCode === 0) {
+                if(data.resultCode === 0) {
                     let {id, email, login}= data.data
                     dispatch(setUserData(id, email, login))
                 }

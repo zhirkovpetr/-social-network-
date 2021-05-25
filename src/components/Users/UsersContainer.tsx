@@ -11,6 +11,7 @@ import {
 import Users from './Users';
 import React from 'react';
 import {Preloader} from "../../common/Preloader/Preloader";
+import {Redirect} from "react-router-dom";
 
 
 export type mapStatePropsType = {
@@ -20,6 +21,7 @@ export type mapStatePropsType = {
     currentPage: number
     isFetching: boolean
     followingInProgress: Array<string>
+    isAuth: boolean
 }
 
 export type UsersContainerComponentPropsType = mapStatePropsType & mapDispatchPropsType;
@@ -36,12 +38,12 @@ class UsersContainerComponent extends React.Component<UsersContainerComponentPro
     componentDidMount() {
         this.props.getUsersTC(this.props.currentPage, this.props.pageSize);
 
-       /* this.props.toggleIsFetching(true);
-        usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data => {
-            this.props.toggleIsFetching(false);
-            this.props.setUsers(data.items);
-            this.props.setTotalUsersCount(data.totalCount);
-        })*/
+        /* this.props.toggleIsFetching(true);
+         usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data => {
+             this.props.toggleIsFetching(false);
+             this.props.setUsers(data.items);
+             this.props.setTotalUsersCount(data.totalCount);
+         })*/
     }
 
     onPageChanged = (pageNumber: number) => {
@@ -56,6 +58,7 @@ class UsersContainerComponent extends React.Component<UsersContainerComponentPro
     }
 
     render() {
+        if (!this.props.isAuth) return <Redirect to={'/login'}/>
         return <>
             {this.props.isFetching ? <Preloader/> : null}
             <Users totalUsersCount={this.props.totalUsersCount}
@@ -66,8 +69,6 @@ class UsersContainerComponent extends React.Component<UsersContainerComponentPro
                    unFollowTC={this.props.unFollowTC}
                    onPageChanged={this.onPageChanged}
                    followingInProgress={this.props.followingInProgress}
-
-
             />
         </>
     }
@@ -82,6 +83,7 @@ let mapToStateToProps = (state: AppStateType): mapStatePropsType => {
         currentPage: state.usersPage.currentPage,
         isFetching: state.usersPage.isFetching,
         followingInProgress: state.usersPage.followingInProgress,
+        isAuth: state.auth.isAuth
     }
 }
 
