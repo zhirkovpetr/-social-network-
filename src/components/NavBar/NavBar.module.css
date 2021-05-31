@@ -1,19 +1,23 @@
-.nav{
+.nav {
     grid-area: n;
     background-color: green;
     padding: 20px;
 }
+
 .nav img {
     height: 30px;
     border-radius: 50px;
 }
+
 .item a {
     color: white;
     text-decoration: none;
 }
+
 .item a.activeLink {
     color: gold;
 }
+
 .friends {
     display: flex;
     justify-content: center;
@@ -28,6 +32,7 @@
     padding-right: 5px;
     color: white;
 }
+
 .nameFriend a.activeLink {
     color: gold;
 }
