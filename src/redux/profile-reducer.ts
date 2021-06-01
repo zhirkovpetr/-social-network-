@@ -1,7 +1,7 @@
 import {v1} from 'uuid';
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {AppStateType} from "./redux-store";
-import {usersAPI} from "../API/api";
+import {profileAPI} from "../API/api";
 
 export type postsType = {
     id: string
@@ -14,7 +14,7 @@ type PhotoType = {
     large: null | string
 }
 
-type contactsType={
+type contactsType = {
     facebook: null | string
     website: null | string
     vk: null | string
@@ -25,7 +25,7 @@ type contactsType={
     mainLink: null | string
 }
 
-export type ProfileType={
+export type ProfileType = {
     aboutMe: string
     contacts: contactsType
     lookingForAJob: boolean
@@ -37,6 +37,7 @@ export type ProfileType={
 
 export type ProfilePageType = {
     profile: ProfileType | null
+    status: string
     posts: postsType[]
     messageForNewPost: string
 }
@@ -45,42 +46,54 @@ export type ProfilePageType = {
 const ADD_POST = 'ADD-POST';
 const CHANGE_POST = 'CHANGE-POST';
 const ON_KEY_PRESS_HANDLER = 'ON_KEY_PRESS_HANDLER';
-const SET_USER_PROFILE= 'SET_USER_PROFILE';
+const SET_USER_PROFILE = 'SET_USER_PROFILE';
+const SET_STATUS = 'SET_STATUS';
 
-export type ActionsTypes = AddPostActionType | ChangePostActionType | onKeyPressHandlerActionType | setUserProfileActionType
+export type ActionsTypes =
+    AddPostActionType
+    | ChangePostActionType
+    | onKeyPressHandlerActionType
+    | setUserProfileActionType
+    | setStatusActionType
 
 type AddPostActionType = ReturnType<typeof AddPost>
 type ChangePostActionType = ReturnType<typeof ChangePost>
 type onKeyPressHandlerActionType = ReturnType<typeof onKeyPressHandler>
 type setUserProfileActionType = ReturnType<typeof setUserProfile>
+type setStatusActionType = ReturnType<typeof setStatus>
 
 
-
-
-export const AddPost= () => {
+export const AddPost = () => {
     return {
         type: ADD_POST
     } as const
 }
 
-export const ChangePost= (newPost: string) => {
+export const ChangePost = (newPost: string) => {
     return {
         type: CHANGE_POST, newPost: newPost
     } as const
 }
-export const onKeyPressHandler= () => {
+export const onKeyPressHandler = () => {
     return {
         type: ON_KEY_PRESS_HANDLER
     } as const
 }
-export const setUserProfile= (profile: ProfileType | null) => {
+export const setUserProfile = (profile: ProfileType | null) => {
     return {
         type: SET_USER_PROFILE, profile: profile
     } as const
 }
 
+export const setStatus = (status: string) => {
+    return {
+        type: SET_STATUS, status
+    } as const
+}
+
 let initialState = {
     profile: null,
+    status: '',
     messageForNewPost: '',
     posts: [
         {id: v1(), message: 'Hi, how a you?', likesCount: 12},
@@ -118,6 +131,12 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
                 profile: action.profile
             }
         }
+        case SET_STATUS: {
+            return {
+                ...state,
+                status: action.status
+            }
+        }
         default:
             return state
     }
@@ -128,11 +147,34 @@ type ThunkType = ThunkAction<void, AppStateType, unknown, ActionsTypes>
 export const getUserPageTC = (userId: number): ThunkType => {
     return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>,
             getState: () => AppStateType) => {
-        usersAPI.getUserPage(userId)
+        profileAPI.getProfilePage(userId)
             .then(data => {
                 dispatch(setUserProfile(data));
             })
-}}
+    }
+}
+
+export const getStatusTC = (userId: number): ThunkType => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>,
+            getState: () => AppStateType) => {
+        profileAPI.getStatus(userId)
+            .then(data => {
+                dispatch(setStatus(data));
+            })
+    }
+}
+
+export const updateStatusTC = (status: string): ThunkType => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>,
+            getState: () => AppStateType) => {
+        profileAPI.updateStatus(status)
+            .then(data => {
+                if (data.resultCode === 0) {
+                    dispatch(setStatus(status));
+                }
+            })
+    }
+}
 
 
 
