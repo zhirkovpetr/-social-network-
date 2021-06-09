@@ -5,10 +5,9 @@ import {profilePageType} from "./MyPostsContainer";
 import {FormDataType, MyPostsReduxForm} from "./MyPostsForm";
 
 
-
 type MyPostsPropsType = {
     AddPost: (newPost: string) => void
-   onKeyPressHandler: (newPost: string) => void
+    onKeyPressHandler: (newPost: string) => void
     profilePage: profilePageType
 }
 
@@ -20,17 +19,17 @@ const MyPosts: React.FC<MyPostsPropsType> = (props: MyPostsPropsType) => {
 
     const onKeyPressHandler = (post: FormDataType) => {
         props.onKeyPressHandler(post.newPost)
-        post.newPost=''
+        post.newPost = ''
     }
 
     const onAddPost = (post: FormDataType) => {
         props.AddPost(post.newPost)
-        post.newPost=''
+        post.newPost = ''
     }
 
     return <div className={s.postsBlock}>
         <h3>My posts</h3>
-        <MyPostsReduxForm onSubmit={onAddPost} />
+        <MyPostsReduxForm onSubmit={onAddPost}/>
         <div className={s.posts}>
             {postsElements}
         </div>

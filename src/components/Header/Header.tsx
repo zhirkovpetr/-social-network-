@@ -7,6 +7,7 @@ type HeaderPropsType = {
     login: string | null,
     isFetching: boolean
     isAuth: boolean
+    logoutTC: ()=> void
 }
 
 const Header = (props: HeaderPropsType) => {
@@ -16,7 +17,9 @@ const Header = (props: HeaderPropsType) => {
 
         <div className={s.loginBlock}>
             {props.isFetching ? <Preloader/> : null}
-            {props.isAuth ? props.login : <NavLink to={'/login'}> LOGIN </NavLink>}
+            {props.isAuth ?
+                <div> {props.login}  <button onClick={props.logoutTC}>LOG OUT</button> </div>
+                : <NavLink to={'/login'}> LOG IN  </NavLink>}
         </div>
     </header>;
 }

@@ -10,42 +10,30 @@ export type postsType = {
 }
 
 type PhotoType = {
-    small: null | string
-    large: null | string
+    small: string | null
+    large: string | null
 }
 
 type contactsType = {
-    facebook: null | string
-    website: null | string
-    vk: null | string
-    twitter: null | string
-    instagram: null | string
-    youtube: null | string
-    github: null | string
-    mainLink: null | string
+    facebook: string | null
+    website: string | null
+    vk: string | null
+    twitter: string | null
+    instagram: string | null
+    youtube: string | null
+    github: string | null
+    mainLink: string | null
 }
 
 export type ProfileType = {
-    aboutMe: string
+    aboutMe: string | null
     contacts: contactsType
     lookingForAJob: boolean
-    lookingForAJobDescription: string
-    fullName: string
-    userId: number
+    lookingForAJobDescription: string | null
+    fullName: string | null
+    userId: number | null
     photos: PhotoType
 }
-
-export type ProfilePageType = {
-    profile: ProfileType | null
-    status: string
-    posts: postsType[]
-}
-
-
-const ADD_POST = 'ADD-POST';
-const ON_KEY_PRESS_HANDLER = 'ON_KEY_PRESS_HANDLER';
-const SET_USER_PROFILE = 'SET_USER_PROFILE';
-const SET_STATUS = 'SET_STATUS';
 
 export type ActionsTypes =
     AddPostActionType
@@ -58,6 +46,12 @@ type onKeyPressHandlerActionType = ReturnType<typeof onKeyPressHandler>
 type setUserProfileActionType = ReturnType<typeof setUserProfile>
 type setStatusActionType = ReturnType<typeof setStatus>
 
+export type initialStateType = typeof initialState
+
+const ADD_POST = 'ADD-POST';
+const ON_KEY_PRESS_HANDLER = 'ON_KEY_PRESS_HANDLER';
+const SET_USER_PROFILE = 'SET_USER_PROFILE';
+const SET_STATUS = 'SET_STATUS';
 
 export const AddPost = (newPost: string) => {
     return {
@@ -70,7 +64,7 @@ export const onKeyPressHandler = (newPost: string) => {
         type: ON_KEY_PRESS_HANDLER, newPost: newPost
     } as const
 }
-export const setUserProfile = (profile: ProfileType | null) => {
+export const setUserProfile = (profile: ProfileType) => {
     return {
         type: SET_USER_PROFILE, profile: profile
     } as const
@@ -83,15 +77,36 @@ export const setStatus = (status: string) => {
 }
 
 let initialState = {
-    profile: null,
     status: '',
     posts: [
         {id: v1(), message: 'Hi, how a you?', likesCount: 12},
         {id: v1(), message: "It's my first post.", likesCount: 22}
-    ] as Array<postsType>
+    ] as Array<postsType>,
+    profile: {
+        aboutMe: null,
+        contacts: {
+            facebook: null,
+            website: null,
+            vk: null,
+            twitter: null,
+            instagram: null,
+            youtube: null,
+            github: null,
+            mainLink: null
+        },
+        lookingForAJob: true,
+        lookingForAJobDescription: null,
+        fullName: null as string | null,
+        userId: 1,
+        photos: {
+            small: null,
+            large: null
+        }
+    } as ProfileType,
+    isFetching: false
 }
 
-export const profileReducer = (state: ProfilePageType = initialState, action: ActionsTypes): ProfilePageType => {
+export const profileReducer = (state: initialStateType = initialState, action: ActionsTypes): initialStateType => {
     switch (action.type) {
         case ADD_POST: {
             const newPost = action.newPost;

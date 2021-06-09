@@ -1,5 +1,5 @@
 import React from 'react';
-import {AddPost, ProfilePageType, onKeyPressHandler, postsType} from "../../../redux/profile-reducer";
+import {AddPost, initialStateType, onKeyPressHandler, postsType} from "../../../redux/profile-reducer";
 import {AppStateType} from "../../../redux/redux-store";
 import {connect} from "react-redux";
 import MyPosts from "./MyPosts";
@@ -10,7 +10,7 @@ export type profilePageType = {
 }
 
 type mapStatePropsType = {
-    profilePage: ProfilePageType
+    profilePage: initialStateType
 }
 /*type mapDispatchPropsType = {
     ChangePostAC: (newPost: string) => void
