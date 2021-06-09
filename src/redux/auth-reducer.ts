@@ -13,9 +13,9 @@ export type AuthPageType = {
 const SET_USER_DATA = 'SET_USER_DATA';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
-export const setUserData = (id: number | null, email: string | null, login: string | null) => {
+export const setUserData = (id:  number | null, email: string | null, login: string | null, isAuth: boolean) => {
     return {
-        type: SET_USER_DATA, data: {id, email, login}
+        type: SET_USER_DATA, data: {id, email, login, isAuth}
     } as const
 }
 
@@ -43,8 +43,7 @@ export const authReducer = (state: AuthPageType = initialState, action: ActionsT
         case SET_USER_DATA:
             return {
                 ...state,
-                ...action.data,
-                isAuth: true
+                ...action.data
             }
         case TOGGLE_IS_FETCHING:
             return {
@@ -65,11 +64,34 @@ export const getUserLoginTC = (): ThunkType => {
         authAPI.me()
             .then(data => {
                 if(data.resultCode === 0) {
-                    let {id, email, login}= data.data
-                    dispatch(setUserData(id, email, login))
+                    let {id, login, email}= data.data
+                    dispatch(setUserData(id, email, login, true))
                 }
                 dispatch(toggleIsFetching(false))
+            })
+    }
+}
 
+export const loginTC = (email: string, password: string, rememberMe: boolean): ThunkType => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>,
+            getState: () => AppStateType) => {
+        authAPI.login(email,password, rememberMe)
+            .then(data => {
+                if(data.resultCode === 0) {
+                    dispatch(getUserLoginTC())
+                }
+            })
+    }
+}
+
+export const logoutTC = (): ThunkType => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>,
+            getState: () => AppStateType) => {
+        authAPI.logout()
+            .then(data => {
+                if(data.resultCode === 0) {
+                    dispatch(setUserData(null, null, null, false))
+                }
             })
     }
 }
