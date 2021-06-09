@@ -8,7 +8,7 @@ type messagePropsType={
 
 const Message=(props:messagePropsType) =>{
     return <div className={s.message}>{props.message}</div>
-} /*(`кавычки строковые литералы`)*/
+}
 
 
 export default Message;

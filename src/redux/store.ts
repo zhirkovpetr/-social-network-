@@ -1,6 +1,6 @@
 import {v1} from "uuid";
-import {AddPost, ChangePost, onKeyPressHandler, setUserProfile} from "./profile-reducer";
-import {AddMessage, ChangeMessage, dialogsReducer} from "./dialogs-reducer";
+import {AddPost, /*ChangePost*/ onKeyPressHandler, setUserProfile} from "./profile-reducer";
+import {AddMessage, /*ChangeMessage, dialogsReducer*/} from "./dialogs-reducer";
 import {sideBarReducer} from "./sideBar-reducer";
 
 type friendsType = {
@@ -46,16 +46,16 @@ type storeType = {
     dispatch: (action: ActionsTypes) => void
 }
 
-export type ActionsTypes = AddPostActionType | ChangePostActionType | onKeyPressHandlerActionType
-    | AddMessageActionType | ChangeMessageActionType | setUserProfileActionType
+export type ActionsTypes = AddPostActionType /*| ChangePostActionType */| onKeyPressHandlerActionType
+    | AddMessageActionType /* | ChangeMessageActionType*/ | setUserProfileActionType
 
 type AddPostActionType = ReturnType<typeof AddPost>
-type ChangePostActionType = ReturnType<typeof ChangePost>
+/*type ChangePostActionType = ReturnType<typeof ChangePost>*/
 type onKeyPressHandlerActionType = ReturnType<typeof onKeyPressHandler>
 type setUserProfileActionType = ReturnType<typeof setUserProfile>
 
 type AddMessageActionType = ReturnType<typeof AddMessage>
-type ChangeMessageActionType = ReturnType<typeof ChangeMessage>
+/*type ChangeMessageActionType = ReturnType<typeof ChangeMessage>*/
 
 
 
@@ -105,7 +105,7 @@ export const store: storeType = {
     },
     dispatch(action) {
         /*this._state.profilePage = profileReducer(this._state.profilePage, action)*/
-        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
+     /*   this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)*/
         this._state.sideBar = sideBarReducer(this._state.sideBar, action)
         store._RenderEntireTree();
 

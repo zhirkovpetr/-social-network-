@@ -1,5 +1,5 @@
 import React from "react";
-import {AddMessage, ChangeMessage, InitialStateType} from "../../redux/dialogs-reducer";
+import {AddMessage, InitialStateType} from "../../redux/dialogs-reducer";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
@@ -17,7 +17,6 @@ export type dialogsType = {
 }
 export type dialogsPageType = {
     dialogs: Array<dialogsType>
-    messageForNewMessage: string
     messages: Array<messagesType>
 }
 
@@ -47,7 +46,7 @@ let mapToStateToProps = (state: AppStateType): mapStatePropsType => {
 }*/
 
 export const DialogsContainer= compose<React.ComponentType>(
-    connect(mapToStateToProps, {ChangeMessage, AddMessage}),
+    connect(mapToStateToProps, {AddMessage}),
     withAuthRedirect
 )(Dialogs)
 

@@ -1,23 +1,22 @@
-import React, {ChangeEvent} from "react";
+import React from "react";
 import s from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import {dialogsPageType} from "./DialogsContainer";
+import {FormDataType, NewDialogsMessageReduxForm} from "./NewDialogsMessageForm";
 
 type DialogsPropsType = {
     dialogsPage: dialogsPageType
     isAuth: boolean
-    AddMessage: () => void
-    ChangeMessage: (newMessage: string) => void
+    AddMessage: (newMessage: string) => void
 }
 
 const Dialogs: React.FC<DialogsPropsType> = (props) => {
-    const OnChangeMessageCallback = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.ChangeMessage(e.currentTarget.value)
-    }
 
-    const AddMessage = () => {
-        props.AddMessage()
+
+    const AddMessage = (message: FormDataType) => {
+        props.AddMessage(message.newMessage)
+        message.newMessage= ''
     }
 
     let dialogsElements = props.dialogsPage.dialogs.map((d) =>
@@ -36,14 +35,11 @@ const Dialogs: React.FC<DialogsPropsType> = (props) => {
             </div>
             <div className={s.messages}>
                 {messagesElements}
-                <div className={s.inputButton}>
-                    <textarea value={props.dialogsPage.messageForNewMessage} placeholder={'Enter your message'}
-                              onChange={OnChangeMessageCallback}/>
-                    <button onClick={AddMessage}>send</button>
-                </div>
+                <NewDialogsMessageReduxForm onSubmit={AddMessage}/>
             </div>
         </div>
     )
 }
 
 export default Dialogs;
+

@@ -39,44 +39,35 @@ export type ProfilePageType = {
     profile: ProfileType | null
     status: string
     posts: postsType[]
-    messageForNewPost: string
 }
 
 
 const ADD_POST = 'ADD-POST';
-const CHANGE_POST = 'CHANGE-POST';
 const ON_KEY_PRESS_HANDLER = 'ON_KEY_PRESS_HANDLER';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 
 export type ActionsTypes =
     AddPostActionType
-    | ChangePostActionType
     | onKeyPressHandlerActionType
     | setUserProfileActionType
     | setStatusActionType
 
 type AddPostActionType = ReturnType<typeof AddPost>
-type ChangePostActionType = ReturnType<typeof ChangePost>
 type onKeyPressHandlerActionType = ReturnType<typeof onKeyPressHandler>
 type setUserProfileActionType = ReturnType<typeof setUserProfile>
 type setStatusActionType = ReturnType<typeof setStatus>
 
 
-export const AddPost = () => {
+export const AddPost = (newPost: string) => {
     return {
-        type: ADD_POST
+        type: ADD_POST, newPost
     } as const
 }
 
-export const ChangePost = (newPost: string) => {
+export const onKeyPressHandler = (newPost: string) => {
     return {
-        type: CHANGE_POST, newPost: newPost
-    } as const
-}
-export const onKeyPressHandler = () => {
-    return {
-        type: ON_KEY_PRESS_HANDLER
+        type: ON_KEY_PRESS_HANDLER, newPost: newPost
     } as const
 }
 export const setUserProfile = (profile: ProfileType | null) => {
@@ -94,7 +85,6 @@ export const setStatus = (status: string) => {
 let initialState = {
     profile: null,
     status: '',
-    messageForNewPost: '',
     posts: [
         {id: v1(), message: 'Hi, how a you?', likesCount: 12},
         {id: v1(), message: "It's my first post.", likesCount: 22}
@@ -104,25 +94,17 @@ let initialState = {
 export const profileReducer = (state: ProfilePageType = initialState, action: ActionsTypes): ProfilePageType => {
     switch (action.type) {
         case ADD_POST: {
-            const newPost = state.messageForNewPost;
+            const newPost = action.newPost;
             return {
                 ...state,
-                messageForNewPost: '',
                 posts: [...state.posts, {id: v1(), message: newPost, likesCount: 0}]
             }
         }
-        case CHANGE_POST: {
-            return {
-                ...state,
-                messageForNewPost: action.newPost
-            }
-        }
         case ON_KEY_PRESS_HANDLER: {
-            const newPost = state.messageForNewPost;
+            const newPost = action.newPost;
             return {
                 ...state,
                 posts: [...state.posts, {id: v1(), message: newPost, likesCount: 0}],
-                messageForNewPost: '',
             }
         }
         case SET_USER_PROFILE: {

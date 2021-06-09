@@ -1,12 +1,11 @@
 import React from 'react';
-import {AddPost, ChangePost, ProfilePageType, onKeyPressHandler, postsType} from "../../../redux/profile-reducer";
+import {AddPost, ProfilePageType, onKeyPressHandler, postsType} from "../../../redux/profile-reducer";
 import {AppStateType} from "../../../redux/redux-store";
 import {connect} from "react-redux";
 import MyPosts from "./MyPosts";
 
 
 export type profilePageType = {
-    messageForNewPost: string
     posts: Array<postsType>
 }
 
@@ -40,5 +39,5 @@ let mapToStateToProps = (state: AppStateType): mapStatePropsType => {
     }
 }*/
 
-export const MyPostsContainer = connect(mapToStateToProps, {ChangePost, AddPost, onKeyPressHandler})(MyPosts)
+export const MyPostsContainer = connect(mapToStateToProps, {AddPost, onKeyPressHandler})(MyPosts)
 
