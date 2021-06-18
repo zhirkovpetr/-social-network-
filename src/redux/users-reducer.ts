@@ -142,9 +142,8 @@ export const usersReducer = (state: InitialStateType = initialState, action: Act
 
 type ThunkType = ThunkAction<void, AppStateType, unknown, ActionsTypes>
 
-export const getUsersTC = (currentPage: number, pageSize: number): ThunkType => {
-    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>,
-            getState: () => AppStateType) => {
+export const requestUsersTC = (currentPage: number, pageSize: number): ThunkType => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>) => {
         dispatch(toggleIsFetching(true));
         usersAPI.getUsers(currentPage, pageSize).then(data => {
             dispatch(toggleIsFetching(false));
@@ -156,8 +155,7 @@ export const getUsersTC = (currentPage: number, pageSize: number): ThunkType => 
 }
 
 export const followTC = (userId: string): ThunkType => {
-    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>,
-            getState: () => AppStateType) => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>) => {
         dispatch(toggleIsFollowingInProgress(userId, true))
         usersAPI.followUsers(userId).then(data => {
             if (data.resultCode === 0) {
@@ -169,8 +167,7 @@ export const followTC = (userId: string): ThunkType => {
 }
 
 export const unFollowTC = (userId: string): ThunkType => {
-    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>,
-            getState: () => AppStateType) => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>) => {
         dispatch(toggleIsFollowingInProgress(userId, true))
         usersAPI.unFollowUsers(userId).then(data => {
             if (data.resultCode === 0) {

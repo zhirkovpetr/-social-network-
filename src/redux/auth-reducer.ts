@@ -63,10 +63,9 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 type ThunkType = ThunkAction<void, AppStateType, unknown, ActionsTypes>
 
 export const getUserLoginTC = (): ThunkType => {
-    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>,
-            getState: () => AppStateType) => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>) => {
         dispatch(toggleIsFetching(true))
-        authAPI.me()
+        return authAPI.me()
             .then(data => {
                 if (data.resultCode === 0) {
                     let {id, login, email} = data.data
@@ -79,8 +78,7 @@ export const getUserLoginTC = (): ThunkType => {
 
 export const loginTC = (email: string | null, password: string | null, rememberMe: boolean): ThunkType => {
 
-    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes | StopSubmitActionsType>,
-            getState: () => AppStateType) => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes | StopSubmitActionsType>) => {
         authAPI.login(email, password, rememberMe)
             .then(data => {
                 if (data.resultCode === 0) {
@@ -94,8 +92,7 @@ export const loginTC = (email: string | null, password: string | null, rememberM
 }
 
 export const logoutTC = (): ThunkType => {
-    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>,
-            getState: () => AppStateType) => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>) => {
         authAPI.logout()
             .then(data => {
                 if (data.resultCode === 0) {
