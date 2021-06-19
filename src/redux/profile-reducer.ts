@@ -142,8 +142,7 @@ export const profileReducer = (state: initialStateType = initialState, action: A
 type ThunkType = ThunkAction<void, AppStateType, unknown, ActionsTypes>
 
 export const getUserPageTC = (userId: number): ThunkType => {
-    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>,
-            getState: () => AppStateType) => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>) => {
         profileAPI.getProfilePage(userId)
             .then(data => {
                 dispatch(setUserProfile(data));
@@ -152,8 +151,7 @@ export const getUserPageTC = (userId: number): ThunkType => {
 }
 
 export const getStatusTC = (userId: number): ThunkType => {
-    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>,
-            getState: () => AppStateType) => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>) => {
         profileAPI.getStatus(userId)
             .then(data => {
                 dispatch(setStatus(data));
@@ -162,8 +160,7 @@ export const getStatusTC = (userId: number): ThunkType => {
 }
 
 export const updateStatusTC = (status: string): ThunkType => {
-    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>,
-            getState: () => AppStateType) => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>) => {
         profileAPI.updateStatus(status)
             .then(data => {
                 if (data.resultCode === 0) {

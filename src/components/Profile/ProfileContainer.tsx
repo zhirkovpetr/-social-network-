@@ -35,13 +35,13 @@ export type PropsType= RouteComponentProps<userPropsType> & ProfilePropsType
 class ProfileContainer extends React.Component<PropsType> {
 
     componentDidMount() {
-        let userId= this.props.profile?.userId
-        if(!userId){
+        let userId= 16711
+       /* if(!userId){
             userId=this.props.authorizedUserId
             if(!userId){
                 this.props.history.push('/login')
             }
-        }
+        }*/
         this.props.getUserPageTC(userId)
         this.props.getStatusTC(userId)
 
