@@ -18,13 +18,13 @@ type mapStatePropsType = {
 }
 
 export type mapDispatchPropsType = {
-    getUserPageTC: (userId: number | null)=> void
-    getStatusTC: (userId: number | null)=> void
+    getUserPageTC: (userId: string)=> void
+    getStatusTC: (userId: string)=> void
     updateStatusTC: (status: string)=> void
 }
 
 type userPropsType={
-    userId: string
+    userId: any
 }
 
 export type ProfilePropsType = mapStatePropsType & mapDispatchPropsType;
@@ -35,25 +35,13 @@ export type PropsType= RouteComponentProps<userPropsType> & ProfilePropsType
 class ProfileContainer extends React.Component<PropsType> {
 
     componentDidMount() {
-        let userId= 16711
-       /* if(!userId){
-            userId=this.props.authorizedUserId
-            if(!userId){
-                this.props.history.push('/login')
-            }
-        }*/
-        this.props.getUserPageTC(userId)
-        this.props.getStatusTC(userId)
-
-
-        /*let userId= this.props.profile?.userId
-        if(!userId){
-            userId=2
+        let userId = this.props.match.params.userId
+        if (!userId) {
+            userId = this.props.authorizedUserId ? this.props.authorizedUserId.toString() : this.props.history.push('/login')
         }
-        usersAPI.getUserPage(userId)
-            .then(data => {
-                this.props.setUserProfile(data);
-            })*/
+
+    this.props.getUserPageTC(userId)
+    this.props.getStatusTC(userId)
 
     }
 
@@ -68,7 +56,7 @@ let mapToStateToProps = (state: AppStateType): mapStatePropsType => ({
     profile: state.profilePage.profile,
     status: state.profilePage.status,
     isAuth: state.auth.isAuth,
-    authorizedUserId: state.auth.data.id
+    authorizedUserId: state.auth.id
 })
 
 export default compose<React.ComponentType>(

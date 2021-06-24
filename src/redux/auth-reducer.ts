@@ -4,9 +4,13 @@ import {authAPI} from "../API/api";
 import {stopSubmit} from "redux-form";
 
 export type AuthPageType = {
-    id: number | null
-    email: string | null
-    login: string | null
+    resultCode: number
+    messages: []
+    id: null | number
+    email: null | string
+    login: null | string
+    isFetching: boolean
+    isAuth: boolean
 }
 
 type StopSubmitActionsType = ReturnType<typeof stopSubmit>
@@ -16,7 +20,7 @@ const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 export const setUserData = (id: number | null, email: string | null, login: string | null, isAuth: boolean) => {
     return {
-        type: SET_USER_DATA, data: {id, email, login, isAuth}
+        type: SET_USER_DATA, payload: {id, email, login, isAuth}
     } as const
 }
 
@@ -33,22 +37,22 @@ export type ActionsTypes = setUserDataActionType | toggleIsFetchingActionType
 
 export type InitialStateType = typeof initialState
 
-export let initialState = {
-    data: {
-        id: null,
-        login: null,
-        email: null
-    } as AuthPageType,
-    isAuth: false,
-    isFetching: false
+let initialState: AuthPageType = {
+    resultCode: 0,
+    messages: [],
+    id: null,
+    email: null,
+    login: null,
+    isFetching: false,
+    isAuth: false
 }
 
-export const authReducer = (state: InitialStateType = initialState, action: ActionsTypes): InitialStateType => {
+export const authReducer = (state: AuthPageType = initialState, action: ActionsTypes): AuthPageType => {
     switch (action.type) {
         case SET_USER_DATA:
             return {
                 ...state,
-                ...action.data
+                ...action.payload
             }
         case TOGGLE_IS_FETCHING:
             return {

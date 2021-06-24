@@ -31,9 +31,9 @@ class HeaderContainerComponent extends React.Component<UsersContainerComponentPr
 
 let mapToStateToProps = (state: AppStateType): mapStatePropsType => {
     return {
-        id: state.auth.data.id,
-        email: state.auth.data.email,
-        login: state.auth.data.login,
+        id: state.auth.id,
+        email: state.auth.email,
+        login: state.auth.login,
         isFetching: state.auth.isFetching,
         isAuth: state.auth.isAuth
     }
