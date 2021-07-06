@@ -1,5 +1,5 @@
 import React from 'react';
-import Post from "./Post/Post";
+import {Post} from "./Post/Post";
 import s from './MyPosts.module.css';
 import {profilePageType} from "./MyPostsContainer";
 import {FormDataType, MyPostsReduxForm} from "./MyPostsForm";
@@ -12,15 +12,15 @@ type MyPostsPropsType = {
 }
 
 
-const MyPosts: React.FC<MyPostsPropsType> = (props: MyPostsPropsType) => {
-
+export const MyPosts: React.FC<MyPostsPropsType> = React.memo(props => {
+    console.log('yo')
     let postsElements = props.profilePage.posts.map(p => <Post key={p.id} message={p.message}
                                                                likesCount={p.likesCount}/>)
 
-    const onKeyPressHandler = (post: FormDataType) => {
+    /*const onKeyPressHandler = (post: FormDataType) => {
         props.onKeyPressHandler(post.newPost)
         post.newPost = ''
-    }
+    }*/
 
     const onAddPost = (post: FormDataType) => {
         props.AddPost(post.newPost)
@@ -34,8 +34,7 @@ const MyPosts: React.FC<MyPostsPropsType> = (props: MyPostsPropsType) => {
             {postsElements}
         </div>
     </div>
-}
-export default MyPosts;
+})
 
 
 

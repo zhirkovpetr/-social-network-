@@ -3,7 +3,7 @@ import s from './NavBar.module.css';
 import {NavLink} from "react-router-dom";
 import {NavBarPropsType} from "./NavBarContainer";
 
-const Navbar: React.FC <NavBarPropsType> = (props) => {
+const Navbar: React.FC <NavBarPropsType> =React.memo(props=> {
     const friendsArray = props.sideBar.friends;
     return (
         <nav className={s.nav}>
@@ -39,7 +39,7 @@ const Navbar: React.FC <NavBarPropsType> = (props) => {
     </div>
     </nav>
 )
-}
+})
 
 export default Navbar;
 

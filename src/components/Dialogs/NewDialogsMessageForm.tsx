@@ -9,13 +9,13 @@ export type  FormDataType = {
 }
 const maxValue= maxLengthCreator(100)
 
-export const NewDialogsMessageForm = (props: InjectedFormProps<FormDataType>) => {
+export const NewDialogsMessageForm = React.memo((props: InjectedFormProps<FormDataType>) => {
     return (
         <form onSubmit={props.handleSubmit} className={s.inputButton}>
             <Field placeholder={'Enter your message'} name={'newMessage'} component={Textarea} validate={[ required, maxValue ]}/>
             <button>send</button>
         </form>)
-}
+})
 
 
-export const NewDialogsMessageReduxForm= reduxForm<FormDataType>({form: 'DialogsNewMessage'})(NewDialogsMessageForm)
+export const NewDialogsMessageReduxForm= React.memo(reduxForm<FormDataType>({form: 'DialogsNewMessage'})(NewDialogsMessageForm))

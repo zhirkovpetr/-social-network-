@@ -10,7 +10,7 @@ type HeaderPropsType = {
     logoutTC: ()=> void
 }
 
-const Header = (props: HeaderPropsType) => {
+const Header = React.memo((props: HeaderPropsType) => {
 
     return <header className={s.header}>
         <img alt={'logo'} src='https://cdn.logo.com/hotlink-ok/logo-social.png'/>
@@ -22,5 +22,5 @@ const Header = (props: HeaderPropsType) => {
                 : <NavLink to={'/login'}> LOG IN  </NavLink>}
         </div>
     </header>;
-}
+})
 export default Header;

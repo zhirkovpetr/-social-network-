@@ -3,7 +3,7 @@ import './App.css';
 import {Route, withRouter} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
-import Settings from "./components/Settings/Settings";
+import {Settings} from "./components/Settings/Settings";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {NavbarContainer} from "./components/NavBar/NavBarContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
@@ -27,7 +27,7 @@ export type mapStatePropsType = {
 
 export type AppComponentPropsType = mapDispatchPropsType & mapStatePropsType;
 
-class App extends React.Component<AppComponentPropsType> {
+class App extends React.PureComponent<AppComponentPropsType> {
 
     componentDidMount() {
         this.props.initializedTC()

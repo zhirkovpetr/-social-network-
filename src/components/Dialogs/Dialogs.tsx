@@ -1,7 +1,7 @@
 import React from "react";
 import s from './Dialogs.module.css';
-import DialogItem from "./DialogItem/DialogItem";
-import Message from "./Message/Message";
+import {DialogItem} from "./DialogItem/DialogItem";
+import {Message} from "./Message/Message";
 import {dialogsPageType} from "./DialogsContainer";
 import {FormDataType, NewDialogsMessageReduxForm} from "./NewDialogsMessageForm";
 
@@ -11,7 +11,7 @@ type DialogsPropsType = {
     AddMessage: (newMessage: string) => void
 }
 
-const Dialogs: React.FC<DialogsPropsType> = (props) => {
+export const Dialogs: React.FC<DialogsPropsType> = React.memo((props) => {
 
 
     const AddMessage = (message: FormDataType) => {
@@ -39,7 +39,7 @@ const Dialogs: React.FC<DialogsPropsType> = (props) => {
             </div>
         </div>
     )
-}
+})
 
-export default Dialogs;
+
 

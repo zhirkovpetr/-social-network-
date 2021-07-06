@@ -22,7 +22,7 @@ let rootReducer= combineReducers({
     app: appReducer
 });
 
-export let store= createStore(rootReducer, applyMiddleware(thunk))
+export const store= createStore(rootReducer, applyMiddleware(thunk))
 
 // @ts-ignore
 window.store=store

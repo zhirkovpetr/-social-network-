@@ -26,7 +26,7 @@ export type UsersContainerComponentPropsType = mapStatePropsType & mapDispatchPr
 
 const maxValue = maxLengthCreator(40)
 
-export const LoginForm = (props: InjectedFormProps<FormDataType>) => {
+export const LoginForm = React.memo((props: InjectedFormProps<FormDataType>) => {
     return (<form onSubmit={props.handleSubmit}>
         <div><Field placeholder={'Email'} name={'email'} component={Input} validate={[required, maxValue]}/></div>
         <div><Field placeholder={'Password'} name={'password'} type={'password'} component={Input}
@@ -41,11 +41,11 @@ export const LoginForm = (props: InjectedFormProps<FormDataType>) => {
             <button>Login</button>
         </div>
     </form>)
-}
+})
 
-const LoginReduxForm = reduxForm<FormDataType>({form: 'login'})(LoginForm)
+const LoginReduxForm = React.memo(reduxForm<FormDataType>({form: 'login'})(LoginForm))
 
-const Login = (props: UsersContainerComponentPropsType) => {
+const Login = React.memo((props: UsersContainerComponentPropsType) => {
     const onSubmit = (formData: FormDataType) => {
         const {email, password, rememberMe} = formData
         props.loginTC(email, password, rememberMe)
@@ -58,7 +58,7 @@ const Login = (props: UsersContainerComponentPropsType) => {
         <h1>Login</h1>
         <LoginReduxForm onSubmit={onSubmit}/>
     </div>)
-}
+})
 
 export const mapStateToProps = (state: AppStateType): mapStatePropsType => {
     return {

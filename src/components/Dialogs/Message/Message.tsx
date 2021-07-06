@@ -6,9 +6,8 @@ type messagePropsType={
     message: string
 }
 
-const Message=(props:messagePropsType) =>{
+export const Message=React.memo((props:messagePropsType) =>{
     return <div className={s.message}>{props.message}</div>
-}
+})
 
 
-export default Message;

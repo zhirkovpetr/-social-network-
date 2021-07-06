@@ -5,7 +5,7 @@ type ProfileStatusWithHooksPropsType = {
     updateStatusTC: (status: string) => void
 }
 
-export const ProfileStatusWithHooks = (props: ProfileStatusWithHooksPropsType) => {
+export const ProfileStatusWithHooks = React.memo((props: ProfileStatusWithHooksPropsType) => {
 
     let [editMode, setEditMode] = useState<boolean>(false)
     let [status, setStatus] = useState<string>(props.status)
@@ -42,5 +42,5 @@ export const ProfileStatusWithHooks = (props: ProfileStatusWithHooksPropsType) =
 
         </div>
     )
-}
+})
 

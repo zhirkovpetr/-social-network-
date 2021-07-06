@@ -9,7 +9,7 @@ export type  FormDataType = {
 
 const maxValue= maxLengthCreator(50)
 
-export const MyPostsForm = (props: InjectedFormProps<FormDataType>) => {
+export const MyPostsForm = React.memo((props: InjectedFormProps<FormDataType>) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
@@ -20,7 +20,7 @@ export const MyPostsForm = (props: InjectedFormProps<FormDataType>) => {
             </div>
         </form>
     )
-}
+})
 
-export const MyPostsReduxForm = reduxForm<FormDataType>({form: 'ProfileNewPost'})(MyPostsForm)
+export const MyPostsReduxForm = React.memo(reduxForm<FormDataType>({form: 'ProfileNewPost'})(MyPostsForm))
 

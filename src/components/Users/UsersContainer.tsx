@@ -8,7 +8,7 @@ import {
     unFollowTC,
     UserType
 } from '../../redux/users-reducer';
-import Users from './Users';
+import {Users} from './Users';
 import React from 'react';
 import {Preloader} from "../../common/Preloader/Preloader";
 import {compose} from "redux";
@@ -40,7 +40,7 @@ export type mapDispatchPropsType = {
     getUsersTC: (currentPage: number, pageSize: number) => void
 }
 
-class UsersContainerComponent extends React.Component<UsersContainerComponentPropsType> {
+class UsersContainerComponent extends React.PureComponent<UsersContainerComponentPropsType> {
 
     componentDidMount() {
         this.props.getUsersTC(this.props.currentPage, this.props.pageSize);

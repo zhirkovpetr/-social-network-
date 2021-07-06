@@ -2,7 +2,7 @@ import React from 'react';
 import {AddPost, initialStateType, onKeyPressHandler, postsType} from "../../../redux/profile-reducer";
 import {AppStateType} from "../../../redux/redux-store";
 import {connect} from "react-redux";
-import MyPosts from "./MyPosts";
+import {MyPosts} from "./MyPosts";
 
 
 export type profilePageType = {

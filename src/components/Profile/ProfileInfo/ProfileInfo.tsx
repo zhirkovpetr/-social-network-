@@ -5,12 +5,12 @@ import {Preloader} from "../../../common/Preloader/Preloader";
 import {ProfileStatusWithHooks} from "./ProfileStatusWithHooks";
 
 type profileInfoPropsType = {
-    profile: ProfileType | null
+    profile: ProfileType
     status: string
     updateStatusTC: (status: string)=> void
 }
 
-const ProfileInfo = (props: profileInfoPropsType) => {
+export const ProfileInfo = React.memo((props: profileInfoPropsType) => {
     if (!props.profile) {
         return <Preloader/>
     } else
@@ -21,10 +21,9 @@ const ProfileInfo = (props: profileInfoPropsType) => {
                 <div><ProfileStatusWithHooks status={props.status} updateStatusTC={props.updateStatusTC} /></div>
 
                 <div>Full name: {props.profile.fullName}</div>
-                <div>About me: {props.profile.aboutMe}</div>
-                <div>Looking for a job: {props.profile.lookingForAJobDescription}</div>
+              {/*  <div>About me: {props.profile.aboutMe}</div>
+                <div>Looking for a job: {props.profile.lookingForAJobDescription}</div>*/}
                 {/*<div>{props.profile.contacts}</div>*/}
             </div>
         </div>
-}
-export default ProfileInfo;
+})

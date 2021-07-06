@@ -3,16 +3,6 @@ import {AppStateType} from "./redux-store";
 import {authAPI} from "../API/api";
 import {stopSubmit} from "redux-form";
 
-export type AuthPageType = {
-    resultCode: number
-    messages: []
-    id: null | number
-    email: null | string
-    login: null | string
-    isFetching: boolean
-    isAuth: boolean
-}
-
 type StopSubmitActionsType = ReturnType<typeof stopSubmit>
 
 const SET_USER_DATA = 'SET_USER_DATA';
@@ -37,17 +27,16 @@ export type ActionsTypes = setUserDataActionType | toggleIsFetchingActionType
 
 export type InitialStateType = typeof initialState
 
-let initialState: AuthPageType = {
+let initialState= {
+    id: null as number | null,
+    login: null as string | null,
+    email: null as string | null,
     resultCode: 0,
-    messages: [],
-    id: null,
-    email: null,
-    login: null,
     isFetching: false,
     isAuth: false
 }
 
-export const authReducer = (state: AuthPageType = initialState, action: ActionsTypes): AuthPageType => {
+export const authReducer = (state: InitialStateType = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
         case SET_USER_DATA:
             return {
