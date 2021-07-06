@@ -40,11 +40,13 @@ export type ActionsTypes =
     | onKeyPressHandlerActionType
     | setUserProfileActionType
     | setStatusActionType
+    | removePostActionType
 
 type AddPostActionType = ReturnType<typeof AddPost>
 type onKeyPressHandlerActionType = ReturnType<typeof onKeyPressHandler>
 type setUserProfileActionType = ReturnType<typeof setUserProfile>
 type setStatusActionType = ReturnType<typeof setStatus>
+type removePostActionType = ReturnType<typeof removePost>
 
 export type initialStateType = typeof initialState
 
@@ -52,6 +54,7 @@ const ADD_POST = 'ADD-POST';
 const ON_KEY_PRESS_HANDLER = 'ON_KEY_PRESS_HANDLER';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
+const REMOVE_POST = 'REMOVE_POST';
 
 export const AddPost = (newPost: string) => {
     return {
@@ -73,6 +76,12 @@ export const setUserProfile = (profile: ProfileType) => {
 export const setStatus = (status: string) => {
     return {
         type: SET_STATUS, status
+    } as const
+}
+
+export const removePost = (postId: string) => {
+    return {
+        type: REMOVE_POST, postId
     } as const
 }
 
@@ -132,6 +141,12 @@ export const profileReducer = (state: initialStateType = initialState, action: A
             return {
                 ...state,
                 status: action.status
+            }
+        }
+        case REMOVE_POST: {
+            return {
+                ...state,
+                posts: state.posts.filter(p=> p.id !== action.postId)
             }
         }
         default:
