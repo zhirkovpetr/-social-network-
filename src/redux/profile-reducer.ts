@@ -1,90 +1,16 @@
 import {v1} from 'uuid';
-import {ThunkAction, ThunkDispatch} from "redux-thunk";
-import {AppStateType} from "./redux-store";
-import {profileAPI} from "../API/api";
+import {ThunkDispatch} from 'redux-thunk';
+import {AppStateType, AppThunkType} from './redux-store';
+import {profileAPI} from '../API/api';
 
-export type postsType = {
-    id: string
-    message: string
-    likesCount: number
-}
+//Const
+const ADD_POST = 'SOCIAL_NETWORK/PROFILE/ADD-POST';
+const ON_KEY_PRESS_HANDLER = 'SOCIAL_NETWORK/PROFILE/ON_KEY_PRESS_HANDLER';
+const SET_USER_PROFILE = 'SOCIAL_NETWORK/PROFILE/SET_USER_PROFILE';
+const SET_STATUS = 'SOCIAL_NETWORK/PROFILE/SET_STATUS';
+const REMOVE_POST = 'SOCIAL_NETWORK/PROFILE/REMOVE_POST';
 
-type PhotoType = {
-    small: string | null
-    large: string | null
-}
-
-type contactsType = {
-    facebook: string | null
-    website: string | null
-    vk: string | null
-    twitter: string | null
-    instagram: string | null
-    youtube: string | null
-    github: string | null
-    mainLink: string | null
-}
-
-export type ProfileType = {
-    aboutMe: string | null
-    contacts: contactsType
-    lookingForAJob: boolean
-    lookingForAJobDescription: string | null
-    fullName: string | null
-    userId: number
-    photos: PhotoType
-}
-
-export type ActionsTypes =
-    AddPostActionType
-    | onKeyPressHandlerActionType
-    | setUserProfileActionType
-    | setStatusActionType
-    | removePostActionType
-
-type AddPostActionType = ReturnType<typeof AddPost>
-type onKeyPressHandlerActionType = ReturnType<typeof onKeyPressHandler>
-type setUserProfileActionType = ReturnType<typeof setUserProfile>
-type setStatusActionType = ReturnType<typeof setStatus>
-type removePostActionType = ReturnType<typeof removePost>
-
-export type initialStateType = typeof initialState
-
-const ADD_POST = 'ADD-POST';
-const ON_KEY_PRESS_HANDLER = 'ON_KEY_PRESS_HANDLER';
-const SET_USER_PROFILE = 'SET_USER_PROFILE';
-const SET_STATUS = 'SET_STATUS';
-const REMOVE_POST = 'REMOVE_POST';
-
-export const AddPost = (newPost: string) => {
-    return {
-        type: ADD_POST, newPost
-    } as const
-}
-
-export const onKeyPressHandler = (newPost: string) => {
-    return {
-        type: ON_KEY_PRESS_HANDLER, newPost: newPost
-    } as const
-}
-export const setUserProfile = (profile: ProfileType) => {
-    return {
-        type: SET_USER_PROFILE, profile: profile
-    } as const
-}
-
-export const setStatus = (status: string) => {
-    return {
-        type: SET_STATUS, status
-    } as const
-}
-
-export const removePost = (postId: string) => {
-    return {
-        type: REMOVE_POST, postId
-    } as const
-}
-
+//State
 let initialState = {
     status: '',
     posts: [
@@ -115,7 +41,8 @@ let initialState = {
     isFetching: false
 }
 
-export const profileReducer = (state: initialStateType = initialState, action: ActionsTypes): initialStateType => {
+//Reducer
+export const profileReducer = (state: initialStateType = initialState, action: ProfileActionsTypes): initialStateType => {
     switch (action.type) {
         case ADD_POST: {
             const newPost = action.newPost;
@@ -154,35 +81,108 @@ export const profileReducer = (state: initialStateType = initialState, action: A
     }
 }
 
-type ThunkType = ThunkAction<void, AppStateType, unknown, ActionsTypes>
+//Action type
+type AddPostActionType = ReturnType<typeof AddPost>
+type onKeyPressHandlerActionType = ReturnType<typeof onKeyPressHandler>
+type setUserProfileActionType = ReturnType<typeof setUserProfile>
+type setStatusActionType = ReturnType<typeof setStatus>
+type removePostActionType = ReturnType<typeof removePost>
 
-export const getUserPageTC = (userId: number): ThunkType => {
-    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>) => {
-        profileAPI.getProfilePage(userId)
-            .then(data => {
-                dispatch(setUserProfile(data));
-            })
+export type ProfileActionsTypes =
+    AddPostActionType
+    | onKeyPressHandlerActionType
+    | setUserProfileActionType
+    | setStatusActionType
+    | removePostActionType
+
+//Action creator
+export const AddPost = (newPost: string) => {
+    return {
+        type: ADD_POST, newPost
+    } as const
+}
+
+export const onKeyPressHandler = (newPost: string) => {
+    return {
+        type: ON_KEY_PRESS_HANDLER, newPost: newPost
+    } as const
+}
+export const setUserProfile = (profile: ProfileType) => {
+    return {
+        type: SET_USER_PROFILE, profile: profile
+    } as const
+}
+
+export const setStatus = (status: string) => {
+    return {
+        type: SET_STATUS, status
+    } as const
+}
+
+export const removePost = (postId: string) => {
+    return {
+        type: REMOVE_POST, postId
+    } as const
+}
+
+//Thunk creator
+export const getUserPageTC = (userId: number): AppThunkType => {
+    return async (dispatch: ThunkDispatch<AppStateType, unknown, ProfileActionsTypes>) => {
+        const response= await profileAPI.getProfilePage(userId)
+                dispatch(setUserProfile(response.data));
     }
 }
 
-export const getStatusTC = (userId: number): ThunkType => {
-    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>) => {
-        profileAPI.getStatus(userId)
-            .then(data => {
-                dispatch(setStatus(data));
-            })
+export const getStatusTC = (userId: number): AppThunkType => {
+    return async (dispatch: ThunkDispatch<AppStateType, unknown, ProfileActionsTypes>) => {
+       const response= await profileAPI.getStatus(userId)
+                dispatch(setStatus(response.data));
     }
 }
 
-export const updateStatusTC = (status: string): ThunkType => {
-    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>) => {
-        profileAPI.updateStatus(status)
-            .then(data => {
-                if (data.resultCode === 0) {
+export const updateStatusTC = (status: string): AppThunkType => {
+    return async (dispatch: ThunkDispatch<AppStateType, unknown, ProfileActionsTypes>) => {
+        const response= await profileAPI.updateStatus(status)
+                if (response.data.resultCode === 0) {
                     dispatch(setStatus(status));
                 }
-            })
     }
+}
+
+//Type
+export type initialStateType = typeof initialState
+
+
+export type postsType = {
+    id: string
+    message: string
+    likesCount: number
+}
+
+type PhotoType = {
+    small: string | null
+    large: string | null
+}
+
+type contactsType = {
+    facebook: string | null
+    website: string | null
+    vk: string | null
+    twitter: string | null
+    instagram: string | null
+    youtube: string | null
+    github: string | null
+    mainLink: string | null
+}
+
+export type ProfileType = {
+    aboutMe: string | null
+    contacts: contactsType
+    lookingForAJob: boolean
+    lookingForAJobDescription: string | null
+    fullName: string | null
+    userId: number
+    photos: PhotoType
 }
 
 

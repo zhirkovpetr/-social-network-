@@ -1,27 +1,9 @@
-import {v1} from "uuid";
-import {ActionsTypes} from "./store";
+import {v1} from 'uuid';
 
-export type messagesType = {
-    id: string
-    message: string
-}
-export type dialogsType = {
-    id: string
-    name: string
-}
+//Const
+const ADD_MESSAGE = 'SOCIAL_NETWORK/DIALOGS/ADD-MESSAGE';
 
-export type InitialStateType = typeof initialState;
-
-
-const ADD_MESSAGE = "ADD-MESSAGE";
-
-export const AddMessage= (newMessage: string) => {
-    return {
-        type: "ADD-MESSAGE", newMessage
-    } as const
-}
-
-
+//State
 let initialState = {
     dialogs: [
         {id: v1(), name: 'Dmitry'},
@@ -39,7 +21,8 @@ let initialState = {
     ] as Array<messagesType>
 }
 
-export const dialogsReducer = (state: InitialStateType = initialState, action: ActionsTypes): InitialStateType => {
+//Reducer
+export const dialogsReducer = (state: InitialStateType = initialState, action: DialogsActionsTypes): InitialStateType => {
     switch (action.type) {
         case ADD_MESSAGE: {
             const newMessage = action.newMessage;
@@ -51,4 +34,28 @@ export const dialogsReducer = (state: InitialStateType = initialState, action: A
         default:
             return state;
     }
+}
+
+//Action type
+type AddMessageActionType = ReturnType<typeof AddMessage>
+
+export type DialogsActionsTypes = AddMessageActionType
+
+//Action creator
+export const AddMessage= (newMessage: string) => {
+    return {
+        type: ADD_MESSAGE, newMessage
+    } as const
+}
+
+//Type
+export type InitialStateType = typeof initialState;
+
+export type messagesType = {
+    id: string
+    message: string
+}
+export type dialogsType = {
+    id: string
+    name: string
 }

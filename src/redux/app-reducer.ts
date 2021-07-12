@@ -1,26 +1,17 @@
-import {ThunkAction, ThunkDispatch} from "redux-thunk";
-import {AppStateType} from "./redux-store";
-import {getUserLoginTC} from "./auth-reducer";
+import {ThunkDispatch} from 'redux-thunk';
+import {AppStateType, AppThunkType} from './redux-store';
+import {getUserLoginTC} from './auth-reducer';
 
-const SET_INITIALIZED = 'SET_INITIALIZED';
+//Const
+const SET_INITIALIZED = 'SOCIAL_NETWORK/APP/SET_INITIALIZED';
 
-type setInitializedAT = ReturnType<typeof setInitializedAC>
-
-export const setInitializedAC = (isInitialized: boolean) => {
-    return {
-        type: SET_INITIALIZED, isInitialized
-    } as const
-}
-
-export type ActionsTypes = setInitializedAT
-
-export type InitialStateType = typeof initialState
-
+//State
 export let initialState = {
     isInitialized: false
 }
 
-export const appReducer = (state: InitialStateType = initialState, action: ActionsTypes): InitialStateType => {
+//Reducer
+export const appReducer = (state: InitialStateType = initialState, action: AppActionsTypes): InitialStateType => {
     switch (action.type) {
         case SET_INITIALIZED:
             return {
@@ -32,11 +23,21 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
     }
 }
 
+//Action type
+type setInitializedAT = ReturnType<typeof setInitializedAC>
 
-type ThunkType = ThunkAction<void, AppStateType, unknown, ActionsTypes>
+export type AppActionsTypes = setInitializedAT
 
-export const initializedTC = (): ThunkType => {
-    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>) => {
+//Action creator
+export const setInitializedAC = (isInitialized: boolean) => {
+    return {
+        type: SET_INITIALIZED, isInitialized
+    } as const
+}
+
+//Thunk creator
+export const initializedTC = (): AppThunkType => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, AppActionsTypes>) => {
         let promise = dispatch(getUserLoginTC())
         Promise.all([promise])
             .then(() => {
@@ -48,3 +49,5 @@ export const initializedTC = (): ThunkType => {
     }
 }
 
+//Type
+export type InitialStateType = typeof initialState

@@ -1,13 +1,7 @@
+import {v1} from 'uuid';
 import {ActionsTypes} from "./store";
-import {v1} from "uuid";
 
-export type friendsType = {
-    id: string
-    name: string
-}
-
-export type InitialStateType = typeof initialState
-
+//State
 let initialState = {
     friends: [
         {id: v1(), name: 'Dmitry'},
@@ -16,9 +10,18 @@ let initialState = {
     ] as Array<friendsType>
 }
 
+//Reducer
 export const sideBarReducer = (state: InitialStateType = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
         default:
             return state
     }
+}
+
+//Type
+export type InitialStateType = typeof initialState
+
+export type friendsType = {
+    id: string
+    name: string
 }

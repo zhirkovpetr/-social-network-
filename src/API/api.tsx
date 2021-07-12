@@ -1,4 +1,6 @@
-import axios from "axios";
+import axios from 'axios';
+import {ProfileType} from '../redux/profile-reducer';
+import {UserPageType} from '../redux/users-reducer';
 
 const instance = axios.create({
     withCredentials: true,
@@ -10,82 +12,49 @@ const instance = axios.create({
 
 export const usersAPI = {
     getUsers(currentPage: number, pageSize: number) {
-        return (
-            instance.get(`users?page=${currentPage}&count=${pageSize}`)
-                .then(response => {
-                    return response.data
-                })
-        )
+        return instance.get<UserPageType>(`users?page=${currentPage}&count=${pageSize}`)
     },
     followUsers(id: string) {
-        return (
-            instance.post(`follow/${id}`, {})
-                .then(response => {
-                    return response.data
-                })
-        )
+        return instance.post<responseType<dataType>>(`follow/${id}`, {})
     },
     unFollowUsers(id: string) {
-        return (
-            instance.delete(`follow/${id}`, {})
-                .then(response => {
-                    return response.data
-                })
-        )
+        return instance.delete<responseType<{}>>(`follow/${id}`, {})
     },
 }
 
 export const profileAPI={
     getProfilePage(userId: number) {
-        return (
-            instance.get(`profile/${userId}`)
-                .then(response => {
-                    return response.data
-                })
-        )
+        return instance.get<ProfileType>(`profile/${userId}`)
     },
     getStatus(userId: number) {
-        return (
-            instance.get(`profile/status/${userId}`)
-                .then(response => {
-                    return response.data
-                })
-        )
+        return instance.get(`profile/status/${userId}`)
     },
     updateStatus(status: string) {
-        return (
-            instance.put(`profile/status`, {status: status})
-                .then(response => {
-                    return response.data
-                })
-        )
+        return instance.put<responseType<{}>>(`profile/status`, {status: status})
     },
 }
 
 export const authAPI={
     me() {
-        return (
-            instance.get(`auth/me`)
-                .then(response => {
-                    return response.data
-                })
-        )
+        return instance.get<responseType<dataType>>(`auth/me`)
     },
-    login(email: string | null, password: string | null, rememberMe: boolean) {
-        return (
-            instance.post(`/auth/login`, {email, password, rememberMe})
-                .then(response => {
-                    return response.data
-                })
-        )
+    login(email: string, password: string, rememberMe: boolean) {
+        return instance.post<responseType<{userId: number}>>(`auth/login`, {email, password, rememberMe})
     },
     logout() {
-        return (
-            instance.delete(`/auth/login`)
-                .then(response => {
-                    return response.data
-                })
-        )
+        return instance.delete<responseType<{}>>(`auth/login`)
     }
 }
 
+//Type
+type responseType<D> = {
+    resultCode: number
+    messages: Array<string>
+    data: D
+}
+
+type dataType= {
+    id: number
+    email: string
+    login: string
+}
