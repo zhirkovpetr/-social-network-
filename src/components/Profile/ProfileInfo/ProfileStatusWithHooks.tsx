@@ -26,7 +26,6 @@ export const ProfileStatusWithHooks = React.memo((props: ProfileStatusWithHooksP
         setStatus(e.currentTarget.value)
     }
 
-
     return (
         <div>
             {!editMode &&
