@@ -8,6 +8,7 @@ type profileInfoPropsType = {
     profile: ProfileType
     status: string
     updateStatusTC: (status: string)=> void
+    isOwner: boolean
 }
 
 export const ProfileInfo = React.memo((props: profileInfoPropsType) => {

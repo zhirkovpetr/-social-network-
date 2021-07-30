@@ -19,7 +19,7 @@ export let initialState = {
     currentPage: 1,
     isFetching: false,
     startPage: 1,
-    followingInProgress: [] as Array<string>
+    followingInProgress: [] as Array<number>
 }
 
 //Reducer
@@ -87,13 +87,13 @@ export type UsersActionsTypes = followActionType | unFollowActionType | setUsers
     toggleIsFollowingInProgressActionType
 
 //Action creator
-export const follow = (userId: string) => {
+export const follow = (userId: number) => {
     return {
         type: FOLLOW, userId
     } as const
 }
 
-export const unFollow = (userId: string) => {
+export const unFollow = (userId: number) => {
     return {
         type: UNFOLLOW, userId
     } as const
@@ -119,7 +119,7 @@ export const toggleIsFetching = (isFetching: boolean) => {
         type: TOGGLE_IS_FETCHING, isFetching
     } as const
 }
-export const toggleIsFollowingInProgress = (userId: string, isFetching: boolean) => {
+export const toggleIsFollowingInProgress = (userId: number, isFetching: boolean) => {
     return {
         type: TOGGLE_FOLLOWING_IN_PROGRESS, userId, isFetching
     } as const
@@ -138,7 +138,7 @@ export const requestUsersTC = (currentPage: number, pageSize: number): AppThunkT
     }
 }
 
-export const followTC = (userId: string): AppThunkType => {
+export const followTC = (userId: number): AppThunkType => {
     return async (dispatch: ThunkDispatch<AppStateType, unknown, UsersActionsTypes>) => {
         dispatch(toggleIsFollowingInProgress(userId, true))
         const response= await usersAPI.followUsers(userId)
@@ -149,7 +149,7 @@ export const followTC = (userId: string): AppThunkType => {
         }
 }
 
-export const unFollowTC = (userId: string): AppThunkType => {
+export const unFollowTC = (userId: number): AppThunkType => {
     return async (dispatch: ThunkDispatch<AppStateType, unknown, UsersActionsTypes>) => {
         dispatch(toggleIsFollowingInProgress(userId, true))
         const response= await usersAPI.unFollowUsers(userId)
@@ -170,7 +170,7 @@ type PhotoType = {
 
 export type UserType = {
     name: string
-    id: string
+    id: number
     uniqueUrlName: null | string
     photos: PhotoType
     status: null | string

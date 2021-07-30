@@ -25,7 +25,7 @@ type userPropsType = {
     userId: any
 }
 
-export type ProfilePropsType = mapStatePropsType & mapDispatchPropsType;
+export type ProfilePropsType = mapStatePropsType & mapDispatchPropsType & { isOwner: boolean };
 
 export type PropsType = RouteComponentProps<userPropsType> & ProfilePropsType
 
@@ -34,12 +34,12 @@ class ProfileContainer extends React.PureComponent<PropsType> {
 
     refreshProfile() {
         let userId = this.props.match.params.userId
-
-        if (!userId) {
-            userId = this.props.authorizedUserId ? this.props.authorizedUserId.toString() : this.props.history.push('/login')
+        if (!userId) userId = this.props.authorizedUserId
+        if (!userId) this.props.history.push('login')
+        if (userId) {
+            this.props.getUserPageTC(userId)
+            this.props.getStatusTC(userId)
         }
-        this.props.getUserPageTC(+userId)
-        this.props.getStatusTC(+userId)
     }
 
     componentDidMount(): void {
@@ -54,8 +54,13 @@ class ProfileContainer extends React.PureComponent<PropsType> {
 
     render() {
         return (
-            <Profile {...this.props} profile={this.props.profile} status={this.props.status}
-                     updateStatusTC={this.props.updateStatusTC}/>
+            <Profile
+                {...this.props}
+                isOwner={!this.props.match.params.userId}
+                profile={this.props.profile}
+                status={this.props.status}
+                updateStatusTC={this.props.updateStatusTC}
+                isAuth={this.props.isAuth}/>
         )
     }
 }
@@ -68,11 +73,11 @@ let mapToStateToProps = (state: AppStateType): mapStatePropsType => ({
 })
 
 export default compose<React.ComponentType>(
-    withRouter,
     withAuthRedirect,
     connect<mapStatePropsType, mapDispatchPropsType, {}, AppStateType>(mapToStateToProps, {
         getUserPageTC,
         getStatusTC,
         updateStatusTC
-    })
+    }),
+    withRouter
 )(ProfileContainer)

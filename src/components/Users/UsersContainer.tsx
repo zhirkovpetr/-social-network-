@@ -21,15 +21,15 @@ export type mapStatePropsType = {
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
-    followingInProgress: Array<string>
+    followingInProgress: Array<number>
 }
 
 export type UsersContainerComponentPropsType = mapStatePropsType & mapDispatchPropsType;
 
 
 export type mapDispatchPropsType = {
-    followTC: (userId: string) => void
-    unFollowTC: (userId: string) => void
+    followTC: (userId: number) => void
+    unFollowTC: (userId: number) => void
     getUsersTC: (currentPage: number, pageSize: number) => void
 }
 

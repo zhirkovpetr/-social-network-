@@ -8,10 +8,10 @@ type UsersPropsType = {
     pageSize: number
     currentPage: number
     usersPage: Array<UserType>
-    followTC: (userId: string) => void
-    unFollowTC: (userId: string) => void
+    followTC: (userId: number) => void
+    unFollowTC: (userId: number) => void
     onPageChanged: (pageNumber: number) => void
-    followingInProgress: Array<string>
+    followingInProgress: Array<number>
 }
 
 export const Users = React.memo((props: UsersPropsType) => {

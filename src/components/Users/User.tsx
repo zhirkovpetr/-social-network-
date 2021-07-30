@@ -5,9 +5,9 @@ import {UserType} from '../../redux/users-reducer';
 import {NavLink} from 'react-router-dom';
 
 type UserPropsType = {
-    followTC: (userId: string) => void
-    unFollowTC: (userId: string) => void
-    followingInProgress: Array<string>
+    followTC: (userId: number) => void
+    unFollowTC: (userId: number) => void
+    followingInProgress: Array<number>
     items: UserType
 }
 

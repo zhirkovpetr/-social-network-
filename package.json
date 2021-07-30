@@ -25,6 +25,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.9",
     "redux-form": "^8.3.7",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
@@ -57,5 +58,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-devtools": "^4.13.5"
   }
 }
