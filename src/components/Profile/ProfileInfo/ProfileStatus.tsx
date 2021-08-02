@@ -43,11 +43,11 @@ export class ProfileStatus extends React.PureComponent<profileStatusPropsType> {
     render() {
         return (
             <div>
+                {!this.state.editMode &&
+                <span onDoubleClick={this.activateEditMode}>{this.props.status || 'No Status'}</span>}
                 {this.state.editMode &&
                 <input onChange={this.onStatusChange} onBlur={this.deactivateActivateEditMode} autoFocus
                        value={this.state.status}/>}
-                {!this.state.editMode &&
-                <span onDoubleClick={this.activateEditMode}>{this.props.status || 'No Status'}</span>}
             </div>
         )
     }
