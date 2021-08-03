@@ -1,6 +1,6 @@
 import React from "react";
 
-type NewsType={}
+
 const News = () => {
     return (<div>News</div>)
 }

@@ -17,7 +17,7 @@ export const User = React.memo((props: UserPropsType) => {
     return (<div>
             <span>
                 <div>
-                    <NavLink to={'/profile'}>
+                    <NavLink to={`/profile/${props.items.id}`}>
                     <img alt={'avatar'} className={s.photo} src={props.items.photos.small !== null ? props.items.photos.small : userPhoto}/>
                     </NavLink>
                 </div>

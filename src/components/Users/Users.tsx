@@ -4,7 +4,7 @@ import {Paginator} from "../../common/Paginator/Paginator";
 import {User} from "./User";
 
 type UsersPropsType = {
-    totalUsersCount: number
+    totalCount: number
     pageSize: number
     currentPage: number
     usersPage: Array<UserType>
@@ -18,7 +18,7 @@ export const Users = React.memo((props: UsersPropsType) => {
 
 
     return (<div>
-        <Paginator totalUsersCount={props.totalUsersCount} pageSize={props.pageSize}
+        <Paginator totalCount={props.totalCount} pageSize={props.pageSize}
                    onPageChanged={props.onPageChanged} currentPage={props.currentPage}/>
         <div>
             {

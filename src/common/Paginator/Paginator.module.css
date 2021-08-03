@@ -1,0 +1,23 @@
+.page {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+}
+
+.page span{
+    border: 1px solid #f1f5f8;
+    padding: 2px;
+    background-color: white;
+}
+
+.page span:hover{
+    background-color: #1056b7;
+    color: #f1f5f8;
+}
+
+.page .currentPage{
+    background-color: #1056b7;
+    font-weight: bold;
+    color: #f1f5f8;
+    border: 1px solid #1056b7;
+}

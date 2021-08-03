@@ -1,10 +1,9 @@
-import React from 'react';
 import {follow, setCurrentPage, setUsers, toggleIsFollowingInProgress, usersReducer, UserType} from "./users-reducer";
 
 let state = {
-    users: [
+    items: [
         {
-            id: '1',
+            id: 1,
             name: "Ignat",
             status: "My name Ignat",
             followed: false,
@@ -15,7 +14,7 @@ let state = {
             }
         },
         {
-            id: '2',
+            id: 2,
             name: "Vanya",
             status: "My name Vanya",
             followed: false,
@@ -26,7 +25,7 @@ let state = {
             }
         },
         {
-            id: '3',
+            id: 3,
             name: "Valera",
             status: "My name Valera",
             followed: true,
@@ -38,10 +37,11 @@ let state = {
         }
     ] as Array<UserType>,
     pageSize: 5,
-    totalUsersCount: 0,
+    totalCount: 0,
     currentPage: 1,
     isFetching: false,
-    followingInProgress: [] as Array<string>
+    startPage: 1,
+    followingInProgress: [] as Array<number>
 }
 
 
@@ -57,28 +57,28 @@ test('current page should be correct', () => {
 
 test('there must be a subscription to the user', () => {
     //test data
-    let action = follow('2')
+    let action = follow(2)
     //action
     let newState = usersReducer(state, action);
     //expectation
-    expect(newState.users[1].followed).toBe(true)
+    expect(newState.items[1].followed).toBe(true)
 });
 
 
 test('button disable, when follow user', () => {
     //test data
-    let action = toggleIsFollowingInProgress('1', true)
+    let action = toggleIsFollowingInProgress(1, true)
     //action
     let newState = usersReducer(state, action);
     //expectation
-    expect(newState.followingInProgress).toEqual(['1'])
+    expect(newState.followingInProgress).toEqual([1])
 });
 
 test('correct user', () => {
     //test data
     let users = [{
         name: 'Petr',
-        id: '4',
+        id: 4,
         status: 'My name Petr',
         followed: false,
         uniqueUrlName: null,
@@ -93,5 +93,5 @@ test('correct user', () => {
     //action
     let newState = usersReducer(state, action);
     //expectation
-    expect(newState.users.length).toBe(1)
+    expect(newState.items.length).toBe(1)
 });
