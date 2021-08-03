@@ -14,7 +14,8 @@ export const Profile = React.memo((props: ProfilePropsType) => {
             <ProfileInfo profile={props.profile}
                          status={props.status}
                          updateStatusTC={props.updateStatusTC}
-                         isOwner={props.isOwner}/>
+                         isOwner={props.isOwner}
+                         savePhotoTC={props.savePhotoTC}/>
             <MyPostsContainer/>
         </div>
     )
