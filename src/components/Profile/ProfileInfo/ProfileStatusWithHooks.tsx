@@ -3,6 +3,7 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 type ProfileStatusWithHooksPropsType = {
     status: string
     updateStatusTC: (status: string) => void
+    isOwner: boolean
 }
 
 export const ProfileStatusWithHooks = React.memo((props: ProfileStatusWithHooksPropsType) => {
@@ -15,7 +16,7 @@ export const ProfileStatusWithHooks = React.memo((props: ProfileStatusWithHooksP
     }, [props.status])
 
     const activateEditMode = () => {
-        setEditMode(true)
+        props.isOwner && setEditMode(true)
     }
     const deactivateActivateEditMode = () => {
         setEditMode(false)
@@ -30,7 +31,7 @@ export const ProfileStatusWithHooks = React.memo((props: ProfileStatusWithHooksP
         <div>
             {!editMode &&
             <div>
-                <span onDoubleClick={activateEditMode}>{props.status || 'No Status'}</span>
+                <span onDoubleClick={activateEditMode}><b>Status: </b>{props.status || 'No Status'}</span>
             </div>
             }
             {editMode &&

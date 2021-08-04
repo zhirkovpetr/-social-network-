@@ -2,7 +2,14 @@ import React from 'react';
 import {Profile} from './Profile';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
-import {getStatusTC, getUserPageTC, ProfileType, savePhotoTC, updateStatusTC} from '../../redux/profile-reducer';
+import {
+    getStatusTC,
+    getUserPageTC,
+    ProfileType,
+    savePhotoTC,
+    saveProfileTC,
+    updateStatusTC
+} from '../../redux/profile-reducer';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {withAuthRedirect} from '../../hoc/withAuthRedirect';
 import {compose} from 'redux';
@@ -16,10 +23,11 @@ type mapStatePropsType = {
 }
 
 export type mapDispatchPropsType = {
-    getUserPageTC: (userId: number) => void
-    getStatusTC: (userId: number) => void
+    getUserPageTC: (userId: string) => void
+    getStatusTC: (userId: string) => void
     updateStatusTC: (status: string) => void
     savePhotoTC: (formData: File) => void
+    saveProfileTC: (profile: ProfileType) => void
 }
 
 type userPropsType = {
@@ -63,6 +71,7 @@ class ProfileContainer extends React.PureComponent<PropsType> {
                 updateStatusTC={this.props.updateStatusTC}
                 isAuth={this.props.isAuth}
                 savePhotoTC={this.props.savePhotoTC}
+                saveProfileTC={this.props.saveProfileTC}
             />
         )
     }
@@ -81,7 +90,8 @@ export default compose<React.ComponentType>(
         getUserPageTC,
         getStatusTC,
         updateStatusTC,
-        savePhotoTC
+        savePhotoTC,
+        saveProfileTC,
     }),
     withRouter
 )(ProfileContainer)

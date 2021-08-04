@@ -14,7 +14,7 @@ const TOGGLE_FOLLOWING_IN_PROGRESS = 'SOCIAL_NETWORK/PROFILE/TOGGLE_FOLLOWING_IN
 //State
 export let initialState = {
     items: [] as Array<UserType>,
-    pageSize: 30,
+    pageSize: 10,
     totalCount: 0,
     currentPage: 1,
     isFetching: false,

@@ -13,7 +13,7 @@ type UserPropsType = {
 
 
 export const User = React.memo((props: UserPropsType) => {
-
+debugger
     return (<div>
             <span>
                 <div>

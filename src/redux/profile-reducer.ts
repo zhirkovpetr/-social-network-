@@ -10,6 +10,7 @@ const SET_USER_PROFILE = 'SOCIAL_NETWORK/PROFILE/SET_USER_PROFILE';
 const SET_STATUS = 'SOCIAL_NETWORK/PROFILE/SET_STATUS';
 const REMOVE_POST = 'SOCIAL_NETWORK/PROFILE/REMOVE_POST';
 const SAVE_PHOTO_SUCCESS = 'SOCIAL_NETWORK/PROFILE/SAVE_PHOTO_SUCCESS';
+const SAVE_PROFILE = 'SAVE_PROFILE';
 
 //State
 let initialState = {
@@ -18,7 +19,7 @@ let initialState = {
         {id: v1(), message: 'Hi, how a you?', likesCount: 12},
         {id: v1(), message: "It's my first post.", likesCount: 22}
     ] as Array<postsType>,
-    profile: null as null | ProfileType,
+    profile: null as ProfileType | null,
     isFetching: false
 }
 
@@ -40,6 +41,7 @@ export const profileReducer = (state: initialStateType = initialState, action: P
             }
         }
         case SET_USER_PROFILE: {
+            debugger
             return {
                 ...state,
                 profile: action.profile
@@ -54,7 +56,7 @@ export const profileReducer = (state: initialStateType = initialState, action: P
         case REMOVE_POST: {
             return {
                 ...state,
-                posts: state.posts.filter(p=> p.id !== action.postId)
+                posts: state.posts.filter(p => p.id !== action.postId)
             }
         }
         case SAVE_PHOTO_SUCCESS: {
@@ -120,27 +122,33 @@ export const savePhotoSuccess = (photo: string) => {
     } as const
 }
 
+export const saveProfile = (profile: ProfileType) => {
+    return {
+        type: SAVE_PROFILE, profile
+    } as const
+}
+
 //Thunk creator
-export const getUserPageTC = (userId: number): AppThunkType => {
+export const getUserPageTC = (userId: string): AppThunkType => {
     return async (dispatch: ThunkDispatch<AppStateType, unknown, ProfileActionsTypes>) => {
-        const response= await profileAPI.getProfilePage(userId)
-                dispatch(setUserProfile(response.data));
+        const response = await profileAPI.getProfilePage(userId)
+        dispatch(setUserProfile(response.data));
     }
 }
 
-export const getStatusTC = (userId: number): AppThunkType => {
+export const getStatusTC = (userId: string): AppThunkType => {
     return async (dispatch: ThunkDispatch<AppStateType, unknown, ProfileActionsTypes>) => {
-       const response= await profileAPI.getStatus(userId)
-                dispatch(setStatus(response.data));
+        const response = await profileAPI.getStatus(userId)
+        dispatch(setStatus(response.data));
     }
 }
 
 export const updateStatusTC = (status: string): AppThunkType => {
     return async (dispatch: ThunkDispatch<AppStateType, unknown, ProfileActionsTypes>) => {
-        const response= await profileAPI.updateStatus(status)
-                if (response.data.resultCode === 0) {
-                    dispatch(setStatus(status));
-                }
+        const response = await profileAPI.updateStatus(status)
+        if (response.data.resultCode === 0) {
+            dispatch(setStatus(status));
+        }
     }
 }
 
@@ -148,6 +156,15 @@ export const savePhotoTC = (image: File): AppThunkType => async (dispatch) => {
     const response = await profileAPI.savePhoto(image)
     if (response.data.resultCode === 0) {
         dispatch(savePhotoSuccess(response.data.data.photos.small))
+    }
+}
+
+export const saveProfileTC = (profile: ProfileType): AppThunkType => async (dispatch, getState) => {
+    const userId = getState().auth.id
+    debugger
+    const response = await profileAPI.saveProfile(profile)
+    if (response.data.resultCode === 0) {
+        dispatch(getUserPageTC(userId.toString()))
     }
 }
 
@@ -178,12 +195,12 @@ type contactsType = {
 }
 
 export type ProfileType = {
-    aboutMe: string | null
+    aboutMe: string
     contacts: contactsType
     lookingForAJob: boolean
-    lookingForAJobDescription: string | null
-    fullName: string | null
-    userId: number
+    lookingForAJobDescription: string
+    fullName: string
+    userId: string
     photos: PhotoType
 }
 

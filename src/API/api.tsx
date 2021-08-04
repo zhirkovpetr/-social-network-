@@ -23,10 +23,10 @@ export const usersAPI = {
 }
 
 export const profileAPI={
-    getProfilePage(userId: number) {
+    getProfilePage(userId: string) {
         return instance.get<ProfileType>(`profile/${userId}`)
     },
-    getStatus(userId: number) {
+    getStatus(userId: string) {
         return instance.get(`profile/status/${userId}`)
     },
     updateStatus(status: string) {
@@ -35,12 +35,14 @@ export const profileAPI={
     savePhoto(image: File) {
         const formData = new FormData()
         formData.append('image', image)
-
         return instance.put<responseType<{photos: {small: string, large: string}}>>('/profile/photo', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         })
+    },
+    saveProfile(profile: ProfileType) {
+        return instance.put<responseType<{}>>('profile', profile)
     },
 }
 

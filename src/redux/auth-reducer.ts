@@ -9,7 +9,7 @@ const TOGGLE_IS_FETCHING = 'SOCIAL_NETWORK/AUTH/TOGGLE_IS_FETCHING';
 
 //State
 let initialState= {
-    id: null as number | null,
+    id: 0 as number,
     login: null as string | null,
     email: null as string | null,
     resultCode: 0,
@@ -42,7 +42,7 @@ type StopSubmitActionsType = ReturnType<typeof stopSubmit>
 export type AuthActionsTypes = setUserDataActionType | toggleIsFetchingActionType
 
 //Action creator
-export const setUserData = (id: number | null, email: string | null, login: string | null, isAuth: boolean) => {
+export const setUserData = (id: number, email: string | null, login: string | null, isAuth: boolean) => {
     return {
         type: SET_USER_DATA, payload: {id, email, login, isAuth}
     } as const
@@ -83,7 +83,7 @@ export const logoutTC = (): AppThunkType => {
     return async (dispatch: ThunkDispatch<AppStateType, unknown, AuthActionsTypes>) => {
         const response= await authAPI.logout()
                 if (response.data.resultCode === 0) {
-                    dispatch(setUserData(null, null, null, false))
+                    dispatch(setUserData(0, null, null, false))
                 }
     }
 }
