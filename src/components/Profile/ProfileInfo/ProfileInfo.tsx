@@ -44,7 +44,7 @@ export const ProfileInfo = React.memo((props: profileInfoPropsType) => {
 
                 <ProfileStatusWithHooks status={props.status} updateStatusTC={props.updateStatusTC}
                                         isOwner={props.isOwner}/>
-                {editMode ? <ProfileDataReduxForm profile={props.profile} deactivateEditMode={deactivateEditMode} onSubmit={onSubmit}/> :
+                {editMode ? <ProfileDataReduxForm profile={props.profile} deactivateEditMode={deactivateEditMode} onSubmit={onSubmit} initialValues={props.profile}/> :
                     <ProfileData profile={props.profile} isOwner={props.isOwner} goToEditMode={setEditMode}/>}
             </div>
         </div>

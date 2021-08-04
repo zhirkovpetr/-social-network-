@@ -2,6 +2,7 @@ import {v1} from 'uuid';
 import {ThunkDispatch} from 'redux-thunk';
 import {AppStateType, AppThunkType} from './redux-store';
 import {profileAPI} from '../API/api';
+import {stopSubmit} from "redux-form";
 
 //Const
 const ADD_POST = 'SOCIAL_NETWORK/PROFILE/ADD-POST';
@@ -85,6 +86,8 @@ export type ProfileActionsTypes =
     | removePostActionType
     | savePhotoSuccessActionType
 
+type StopSubmitActionsType = ReturnType<typeof stopSubmit>
+
 //Action creator
 export const AddPost = (newPost: string) => {
     return {
@@ -159,12 +162,14 @@ export const savePhotoTC = (image: File): AppThunkType => async (dispatch) => {
     }
 }
 
-export const saveProfileTC = (profile: ProfileType): AppThunkType => async (dispatch, getState) => {
+export const saveProfileTC = (profile: ProfileType): AppThunkType => async (dispatch: ThunkDispatch<AppStateType, unknown, ProfileActionsTypes | StopSubmitActionsType>, getState ) => {
     const userId = getState().auth.id
     debugger
     const response = await profileAPI.saveProfile(profile)
     if (response.data.resultCode === 0) {
         dispatch(getUserPageTC(userId.toString()))
+    } else {
+        dispatch(stopSubmit('edit-profile', {_error: response.data.messages[0]}))
     }
 }
 
