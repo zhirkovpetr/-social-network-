@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {HashRouter, Route, withRouter} from 'react-router-dom';
+import {BrowserRouter, Redirect, Route, Switch, withRouter} from 'react-router-dom';
 import News from './components/News/News';
 import Music from './components/Music/Music';
 import {Settings} from './components/Settings/Settings';
@@ -31,12 +31,21 @@ export type AppComponentPropsType = mapDispatchPropsType & mapStatePropsType;
 
 class App extends React.PureComponent<AppComponentPropsType> {
 
+    /*catchAllUnhandleErrors= ()=> {
+        alert('Some error occurred')
+    }*/
+
     componentDidMount() {
         this.props.initializedTC()
+       /* window.addEventListener('unhandledrejection', this.catchAllUnhandleErrors)*/
     }
 
+   /* componentWillUnmount() {
+        window.addEventListener('unhandledrejection', this.catchAllUnhandleErrors)
+    }
+*/
     render() {
-        if(!this.props.initialized) {
+        if (!this.props.initialized) {
             return <Preloader/>
         }
 
@@ -45,13 +54,19 @@ class App extends React.PureComponent<AppComponentPropsType> {
                 <HeaderContainer/>
                 <NavbarContainer/>
                 <div className='app-wrapper-content'>
-                    <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
-                    <Route path='/dialogs' component={withSuspense(DialogsContainer)}/>
-                    <Route path='/news' component={News}/>
-                    <Route path='/friends' component={() => <UsersContainer/>}/>
-                    <Route path='/music' component={Music}/>
-                    <Route path='/settings' component={Settings}/>
-                    <Route path='/login' component={Login}/>
+                    <Switch>
+                        <Route path='/' exact><Redirect to='/profile'/></Route>
+                        <Route path='/social-network' exact><Redirect to='/profile'/></Route>
+                        <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
+                        <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
+                        <Route path='/dialogs' component={withSuspense(DialogsContainer)}/>
+                        <Route path='/news' component={News}/>
+                        <Route path='/friends' component={() => <UsersContainer/>}/>
+                        <Route path='/music' component={Music}/>
+                        <Route path='/settings' component={Settings}/>
+                        <Route path='/login' component={Login}/>
+                        <Route path='*' component={() => <div>404 NOT FOUND</div>}/>
+                    </Switch>
                 </div>
             </div>
 
@@ -61,21 +76,21 @@ class App extends React.PureComponent<AppComponentPropsType> {
 
 let mapToStateToProps = (state: AppStateType): mapStatePropsType => {
     return {
-       initialized: state.app.isInitialized
+        initialized: state.app.isInitialized
     }
 }
 
-let AppContainer= compose<React.ComponentType>(
+let AppContainer = compose<React.ComponentType>(
     withRouter,
-    connect(mapToStateToProps,{initializedTC}))(App)
+    connect(mapToStateToProps, {initializedTC}))(App)
 
-const SamuraiJSApp=()=> {
+const SamuraiJSApp = () => {
     return (
-        <HashRouter>
+        <BrowserRouter>
             <Provider store={store}>
-                <AppContainer />
+                <AppContainer/>
             </Provider>
-        </HashRouter>
+        </BrowserRouter>
     )
 }
 

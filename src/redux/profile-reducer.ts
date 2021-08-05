@@ -151,6 +151,10 @@ export const updateStatusTC = (status: string): AppThunkType => {
         const response = await profileAPI.updateStatus(status)
         if (response.data.resultCode === 0) {
             dispatch(setStatus(status));
+        } else {
+            if (response.data.messages.length > 0) {
+                console.warn(response.data.messages[0])
+            }
         }
     }
 }
