@@ -27,7 +27,7 @@ export type mapDispatchPropsType = {
     getStatusTC: (userId: string) => void
     updateStatusTC: (status: string) => void
     savePhotoTC: (formData: File) => void
-    saveProfileTC: (profile: ProfileType) => void
+    saveProfileTC: (profile: ProfileType) => Promise<any>
 }
 
 type userPropsType = {
@@ -86,7 +86,7 @@ let mapToStateToProps = (state: AppStateType): mapStatePropsType => ({
 
 export default compose<React.ComponentType>(
     withAuthRedirect,
-    connect<mapStatePropsType, mapDispatchPropsType, {}, AppStateType>(mapToStateToProps, {
+    connect(mapToStateToProps, {
         getUserPageTC,
         getStatusTC,
         updateStatusTC,

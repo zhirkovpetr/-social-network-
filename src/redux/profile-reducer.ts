@@ -170,6 +170,7 @@ export const saveProfileTC = (profile: ProfileType): AppThunkType => async (disp
         dispatch(getUserPageTC(userId.toString()))
     } else {
         dispatch(stopSubmit('edit-profile', {_error: response.data.messages[0]}))
+        return Promise.reject(response.data.messages[0])
     }
 }
 

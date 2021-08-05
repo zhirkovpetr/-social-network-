@@ -13,15 +13,16 @@ type profileInfoPropsType = {
     updateStatusTC: (status: string) => void
     isOwner: boolean
     savePhotoTC: (formData: File) => void
-    saveProfileTC: (profile: ProfileType)=> void
+    saveProfileTC: (profile: ProfileType)=> Promise<any>
 }
 
 export const ProfileInfo = React.memo((props: profileInfoPropsType) => {
     const [editMode, setEditMode] = useState(false)
 
     const onSubmit = (profileForm: ProfileType) => {
-        props.saveProfileTC(profileForm)
-        setEditMode(false)
+       props.saveProfileTC(profileForm).then(
+           () => setEditMode(false)
+       )
     }
 
     const deactivateEditMode = () => {
