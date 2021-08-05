@@ -9,11 +9,16 @@ export type FormDataType = {
     password: string
     rememberMe: boolean
     error: string
+    captcha: string
+}
+
+type LoginFormType = {
+    captchaUrl: string | null
 }
 
 const maxValue = maxLengthCreator(40)
 
-export const LoginForm = React.memo((props: InjectedFormProps<FormDataType>) => {
+export const LoginForm = React.memo((props: InjectedFormProps<FormDataType, LoginFormType> & LoginFormType) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <h1>Login</h1>
@@ -28,6 +33,18 @@ export const LoginForm = React.memo((props: InjectedFormProps<FormDataType>) => 
                 <Field type={'checkbox'} name={'rememberMe'} component={Input}/>
                 remember me
             </div>
+
+            {
+                props.captchaUrl &&
+                <img alt={'captcha'} src={props.captchaUrl}/>
+            }
+            {
+                props.captchaUrl &&
+                <div>
+                    <Field placeholder={'Symbols from image'} name={'captcha'} component={Input}/>
+                </div>
+            }
+
             {
                 props.error &&
                 <div className={s.formSummaryError}>
@@ -40,7 +57,7 @@ export const LoginForm = React.memo((props: InjectedFormProps<FormDataType>) => 
         </form>)
 })
 
-export const LoginReduxForm = reduxForm<FormDataType>({form: 'login'})(LoginForm)
+export const LoginReduxForm = reduxForm<FormDataType, LoginFormType>({form: 'login'})(LoginForm)
 
 
 
